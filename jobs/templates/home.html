@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<small>welcome {{ request.user }}</small>
+<h3>this is home page</h3>
+
+<a href="{% url 'jobs:createjob' %}">Create jobs</a>
+
+
+{% for job in jobs %}
+<p><a href="detail/{{job.slug}}">{{job}} -{{job.user}}</a></p>
+{% endfor %}
+
+{% endblock %}

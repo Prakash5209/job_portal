@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+	<title>{{job_detail.company_name}}</title>
+{% endblock %}
+
+{% block content %}
+<small>welcome {{ request.user }}</small>
+<h3>job description</h3>
+
+
+<p>{{job_detail.company_name}}</p>
+<p>{{job_detail.phone}}</p>
+<p>{{job_detail.address}}</p>
+<p>{{job_detail.website}}</p>
+<p>{{job_detail.email}}</p>
+<p>{{job_detail.description}}</p>
+<p>{{job_detail.user}}</p>
+
+{% endblock %}
