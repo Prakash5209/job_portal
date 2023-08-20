@@ -7,13 +7,17 @@
 	{% block title %}
 		<title>web portal</title>
 	{% endblock %}
-	<link rel="stylesheet" type="text/css" href="{% static 'staticfiles/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/home.css' %}">
+	<script rel="stylesheet" src="{% static 'js/bootstrap.min.js' %}"></script>
 </head>
 <body>
 	{% block navbar %}
 		{% include 'navbar.html' %}
-	{% endblock %}
-	{% block content %}
-	{% endblock %}
+	{% endblock %}	
+	<div class="container">
+		{% block content %}
+		{% endblock %}	
+	</div>
 </body>
 </html>

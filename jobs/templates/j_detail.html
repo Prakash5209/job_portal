@@ -4,11 +4,11 @@
 {% endblock %}
 
 {% block content %}
-<small>welcome {{ request.user }}</small>
 <h3>job description</h3>
 
 
 <p>{{job_detail.company_name}}</p>
+<p>{{job_detail.job_title}}</p>
 <p>{{job_detail.phone}}</p>
 <p>{{job_detail.address}}</p>
 <p>{{job_detail.website}}</p>
@@ -16,4 +16,8 @@
 <p>{{job_detail.description}}</p>
 <p>{{job_detail.user}}</p>
 
-{% endblock %}
+{% if job_detail.user == request.user %}
+	<a href="{% url 'jobs:jobDelete' job_detail.slug %}">remove</a>
+{% endif %}
+
+{% endblock %}	

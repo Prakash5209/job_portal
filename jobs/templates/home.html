@@ -1,13 +1,93 @@
 {% extends 'base.html' %}
 {% block content %}
-<small>welcome {{ request.user }}</small>
-<h3>this is home page</h3>
+<div class="jumbotron p-4">
+    <div class="container">
+        <h3>job portal</h3>
+        <p>A dream doesn't become reality through magic; it takes sweat, determination and hard work. ...</p>
+        <div class="row justify-content-md-center">
+            <div class="col col-md-2">
+                <a class="btn btn-light" href="{% url 'jobs:createjob' %}">Create jobs</a>
+            </div>
+            <div class="col col-md-10">
+                <div class="input-group mb-3">
+                    <form method="post" action="{% url 'jobs:search_feature' %}">
+                        {% csrf_token %}
+                        <input placeholder="search jobs" 
+                        type="text" class="form-control" 
+                        aria-label="Sizing example input" 
+                        aria-describedby="inputGroup-sizing-default"
+                        name="search_query">
+                        <button class="submit" type="submit">search</button>
+                    </form>
+                </div>
 
-<a href="{% url 'jobs:createjob' %}">Create jobs</a>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+{% if query %}
+<div class="row">
+    {% if searched %}
+    <div>
+        {% for search in searched %}
+            <!-- <div>
+                <p>{{search.job_title}}</p>
+            </div>
+ -->
+
+            <div class="col-sm-3 mb-3 mb-sm-0">
+                <div class="card">
+                    <div class="card-body row">
+                        <div class="col-2">
+                            {% if search.image %}
+                            <img src="{{ search.image.url }}" style="border-radius:50%;height: 50px;width: 50px;" alt="img">
+                            {% else %}
+                            <img src="https://imgs.search.brave.com/sxd13nVihYQN1LwLCDFG79slkCnOOBeGe0Uu_xRtGfU/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9maWxl/cy5yZWFscHl0aG9u/LmNvbS9tZWRpYS9D/dXN0b21pemluZy10/aGUtRGphbmdvLUFk/bWluX1dhdGVybWFy/a2VkLjkzYTYxODgw/ZDE1NS5qcGc" style="border-radius: 50%;height: 50px;width: 50px;" alt="img">
+                            {% endif %}
+                        </div>
+                        <div class="col-10">
+                            <a href="{% url 'jobs:detail' search.slug %}" class="card-title">
+                                {{ search.job_title }}</a>
+                            <p class="card-text">{{ search.company_name }}</p>
+                            <a href="detail/{{search.slug}}">see more detail</a>
+                        </div>
+                    </div>
+                </div><br>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No search result found</p>
+    {% endif %}
+</div>
+{% endif %}
 
 
-{% for job in jobs %}
-<p><a href="detail/{{job.slug}}">{{job}} -{{job.user}}</a></p>
-{% endfor %}
+<div class="row">
+    {% for job in jobs %}
+    <div class="col-sm-3 mb-3 mb-sm-0">
+        <div class="card">
+            <div class="card-body row">
+                <div class="col-2">
+                    {% if job.image %}
+                    <img src="{{ job.image.url }}" style="border-radius:50%;height: 50px;width: 50px;" alt="img">
+                    {% else %}
+                    <img src="https://imgs.search.brave.com/sxd13nVihYQN1LwLCDFG79slkCnOOBeGe0Uu_xRtGfU/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9maWxl/cy5yZWFscHl0aG9u/LmNvbS9tZWRpYS9D/dXN0b21pemluZy10/aGUtRGphbmdvLUFk/bWluX1dhdGVybWFy/a2VkLjkzYTYxODgw/ZDE1NS5qcGc" style="border-radius: 50%;height: 50px;width: 50px;" alt="img">
+                    {% endif %}
+                </div>
+                <div class="col-10">
+                    <a href="detail/{{job.slug}}" class="card-title">
+                        {{ job.job_title }}</a>
+                    <p class="card-text">{{ job.company_name }}</p>
+                    <a href="detail/{{job.slug}}">see more detail</a>
+                </div>
+            </div>
+        </div><br>
+    </div>
+    {% endfor %}
+</div>
+    
 
 {% endblock %}

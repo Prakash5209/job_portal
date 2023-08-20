@@ -3,10 +3,9 @@
 	<title>Create a job</title>
 {% endblock %}
 {% block content %}
-<small>welcome {{ request.user }}</small>
 <h3>Create a job</h3>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 	{% csrf_token %}
 	{{ form.as_p }}
 	<input type="submit" value="submit">
