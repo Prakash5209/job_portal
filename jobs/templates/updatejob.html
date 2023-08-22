@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}
+	<title>update job</title>
+{% endblock %}
+
+{% block content %}
+<h3>update page</h3>
+
+<div>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary" value="submit">update</button>
+    </form>    
+</div>
+
+{% if job_detail.user == request.user %}
+	<a href="{% url 'jobs:editjob' job_detail.slug %}" class="btn btn-primary">remove</a>
+{% endif %}
+
+{% endblock %}	

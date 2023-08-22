@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -8,7 +8,6 @@ from jobs.models import CreateJob
 
 def home(request):
 	jobs_modl = CreateJob.objects.all()
-	# jobs_modl = CreateJob.objects.filter(company_name__icontains = "cloud")
 	context = {'jobs':jobs_modl}
 	return render(request,'home.html',context)
 
@@ -30,6 +29,16 @@ def createjob(request):
 	context = {'form':form}
 	return render(request,'cj_form.html',context)
 
+def updatejob(request,slug):
+	jobs_model = get_object_or_404(CreateJob,slug=slug,user = request.user)
+	form = CreateJobForm(request.POST or None,request.FILES or None,instance=jobs_model)
+	if form.is_valid():
+		obj = form.save(commit = False)
+		obj.save()
+		return render(redirect('jobs:home',args=(slug,)))
+	context = {'form':form}
+	return render(request,'updatejob.html',context)
+
 @login_required
 def jobDetail(request,slug):
 	job_detail = CreateJob.objects.get(slug = slug)
@@ -39,7 +48,8 @@ def jobDetail(request,slug):
 
 @login_required
 def jobDelete(request,slug):
-	job_detail = CreateJob.objects.get(slug=slug, user = request.user)
+	job_detail = get_object_or_404(CreateJob,slug=slug,user = request.user)
+	# job_detail = CreateJob.objects.get(slug=slug, user = request.user)
 	if job_detail:
 		job_detail.delete()
 		return redirect('jobs:home')

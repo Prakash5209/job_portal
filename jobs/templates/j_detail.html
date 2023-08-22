@@ -16,8 +16,11 @@
 <p>{{job_detail.description}}</p>
 <p>{{job_detail.user}}</p>
 
+
+
 {% if job_detail.user == request.user %}
-	<a href="{% url 'jobs:jobDelete' job_detail.slug %}">remove</a>
+	<a href="{% url 'jobs:updatejob' job_detail.slug %}" class="btn btn-primary">update</a>
+	<a href="{% url 'jobs:jobdelete' job_detail.slug %}" class="btn btn-primary">remove</a>
 {% endif %}
 
 {% endblock %}	
