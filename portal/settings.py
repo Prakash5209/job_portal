@@ -137,3 +137,16 @@ LOGIN_URL = 'account:userlogin'
 AUTH_USER_MODEL = 'account.User'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
+
+
+
+
+
+
+
+
+
+
+
+
+
