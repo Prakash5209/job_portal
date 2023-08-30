@@ -1,5 +1,6 @@
 mediafiles/
-.env
+git
+env
 user.txt
 # Django #
 *.log
