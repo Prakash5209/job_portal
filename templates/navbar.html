@@ -1,4 +1,62 @@
-<nav class="navbar navbar-expand-lg bg-dark border-body" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a href="{% url 'jobs:home' %}" class="navbar-brand">Sabai ko job</a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="{% url 'jobs:home' %}" class="nav-item nav-link">jobs</a>
+                <a href="#" class="nav-item nav-link">Blog</a>
+                <a href="#" class="nav-item nav-link">Contact us</a>
+                <a href="#" class="nav-item nav-link">About us</a>
+            </div>
+            <div class="navbar-nav ms-auto">
+            {% if request.user.is_authenticated %}  
+
+            <li class="nav-item dropdown">
+                {% if request.user.is_authenticated %}
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{request.user}}
+                    </a>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account:userlogin' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account:usersignup' %}">Sign up</a>
+                </li>
+                {% endif %}
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'account:profile' request.user %}">Profile</a></li>
+                    {% if request.user.is_authenticated %}
+                    {% else %}
+                    <li><a class="dropdown-item" href="#">Login</a></li>
+                    {% endif %}
+                    <li><a class="dropdown-item" href="{% url 'account:userlogout' %}">Logout</a></li>
+                </ul>
+            </li>
+
+
+           <!--  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{request.user}}</a>
+            <ul class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'account:profile' request.user %}">Profile</a>
+                <a class="dropdown-item" href="{% url 'account:userlogout' %}">Logout</a>
+            </ul>   -->      
+            {% else %}
+                <a href="{% url 'account:userlogin' %}" class="nav-item nav-link">Login</a>
+                <a href="{% url 'account:usersignup' %}" class="nav-item nav-link">Register</a>
+            {% endif %}
+            </div>  
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+<!-- <nav class="navbar navbar-expand-lg bg-dark border-body" data-bs-theme="dark">
     <div class="container">
         <a class="navbar-brand" href="{% url 'jobs:home' %}">Sabai ko job</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,4 +102,4 @@
         </div>
     </div>
 </nav>
-
+ -->
