@@ -6,8 +6,6 @@ from account.forms import AuthForm,UserForm,ProfileForm
 from account.models import Profile
 
 User = get_user_model()
-var = Profile.objects.all()
-print(var)
 
 
 def userlogin(request):
@@ -65,3 +63,4 @@ def profile_update_view(request):
         return redirect(reverse("account:profile",args=(request.user.username,)))
     context = {'form':form}
     return render(request,"profile.html",context)
+

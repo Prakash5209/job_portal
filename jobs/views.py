@@ -56,4 +56,3 @@ def jobDelete(request,slug):
 	context = {"job_detail":job_detail}
 	return render(request,'j_detail.html',context)
 
-

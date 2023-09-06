@@ -10,4 +10,5 @@ urlpatterns = [
     path('jobdelete/<slug:slug>/',jobDelete,name="jobdelete"),
     path('search/',search_feature,name="search_feature"),
     path('update-job/<slug:slug>/',updatejob,name="updatejob"),
+
 ]

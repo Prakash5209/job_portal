@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'account',
     'jobs',
+    'blog_post',
 ]
 
 MIDDLEWARE = [
