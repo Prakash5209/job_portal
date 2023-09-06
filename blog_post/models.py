@@ -5,5 +5,4 @@ class Faq_model(models.Model):
 	description = models.TextField()
 
 	def __str__(self):
-		return title
-		
+		return self.title

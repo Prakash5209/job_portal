@@ -3,13 +3,27 @@
 	<title>articles</title>
 {% endblock %}
 {% block content %}
-<div class="card">
-  <div class="card-header">{{modl.title}}</div>
-  <div class="card-body">
-    <blockquote class="blockquote mb-0">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-      <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-    </blockquote>
+
+
+
+<div class="container mt-3">
+  <h2>Essential Career Development Tips for Ambitious Professionals</h2>
+  <p><strong>note: </strong>Are you looking to advance in your career and reach new heights of success? Career development is a continuous journey that requires dedication and strategic planning. Here are ten essential career development tips to help you achieve your professional goals</p>
+
+  <hr>
+  <h3>Frequently Asked Question (FAQ)</h3>
+  <div id="accordion">
+  	{% for modl in modls %}
+    <div class="card">
+      <div class="card-header">
+        <a class="btn" data-bs-toggle="collapse" href="#{{modl.id}}">{{modl.title}}</a>
+      </div>
+      <div id="{{modl.id}}" class="collapse {% if modl.id == 1 %} show {% endif %}" data-bs-parent="#accordion">
+        <div class="card-body">{{modl.description}}</div>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 </div>
+
 {% endblock %}
