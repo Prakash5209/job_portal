@@ -7,8 +7,22 @@
 
 
 <div class="container mt-3">
-  <h2>Essential Career Development Tips for Ambitious Professionals</h2>
-  <p><strong>note: </strong>Are you looking to advance in your career and reach new heights of success? Career development is a continuous journey that requires dedication and strategic planning. Here are ten essential career development tips to help you achieve your professional goals</p>
+  <div>
+    <img src="media/{{Blog_photo.image}}">
+  </div>
+  <div>
+  	<h2>Essential Career Development Tips for Ambitious Professionals</h2>
+  	<p><strong>note: </strong>Are you looking to advance in your career and reach new heights of success? Career development is a continuous journey that requires dedication and strategic planning. Here are ten essential career development tips to help you achieve your professional goals</p>
+  	<div>
+  		<ul>
+  			<li><p><strong>Continuous Learning: </strong>Invest in your education and skills. Take courses, attend workshops, and seek opportunities for professional development to stay competitive in your field.</p></li>
+  			<li><p><strong>Networking: </strong>Build a strong professional network. Attend industry events, join relevant associations, and connect with colleagues and mentors who can provide guidance and support.</p></li>
+  			<li><p><strong>Adaptability: </strong>Embrace change and be open to new challenges. The ability to adapt to different situations is a valuable skill in today's dynamic work environment.</p></li>
+  			<li><p><strong>Leadership Skills: </strong>Even if you're not in a managerial role, developing leadership skills can benefit your career. Leadership qualities like communication, decision-making, and teamwork are highly valued.</p></li>
+  			<li><p><strong>Work-Life Balance: </strong>Maintain a healthy work-life balance to prevent burnout. A balanced life contributes to long-term career success and well-being.</p></li>
+  		</ul>
+  	</div>
+  </div>
 
   <hr>
   <h3>Frequently Asked Question (FAQ)</h3>
@@ -19,7 +33,7 @@
         <a class="btn" data-bs-toggle="collapse" href="#{{modl.id}}">{{modl.title}}</a>
       </div>
       <div id="{{modl.id}}" class="collapse {% if modl.id == 1 %} show {% endif %}" data-bs-parent="#accordion">
-        <div class="card-body">{{modl.description}}</div>
+        <div class="card-body"><p style="text-align:justify;">{{modl.description}}</p></div>
       </div>
     </div>
     {% endfor %}

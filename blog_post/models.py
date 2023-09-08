@@ -6,3 +6,6 @@ class Faq_model(models.Model):
 
 	def __str__(self):
 		return self.title
+
+class Blog_photo(models.Model):
+	image = models.ImageField(upload_to="Blog",blank=True,null=True)
