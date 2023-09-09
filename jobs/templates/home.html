@@ -75,7 +75,11 @@
                 </div>
                 <div class="col-10">
                     <a href="detail/{{job.slug}}" class="card-title">
-                        {{ job.job_title }}</a>
+                        {% if job.job_title %}
+
+                        
+                        {% endif %}
+                    {{ job.job_title }}</a>
                     <p class="card-text">{{ job.company_name }}</p>
                     <a href="detail/{{job.slug}}">see more detail</a>
                 </div>

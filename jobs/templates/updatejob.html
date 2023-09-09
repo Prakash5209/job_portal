@@ -10,12 +10,12 @@
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary" value="submit">update</button>
+        <button type="submit" class="btn btn-primary" value="submit">save</button>
     </form>    
 </div>
 
-{% if job_detail.user == request.user %}
-	<a href="{% url 'jobs:editjob' job_detail.slug %}" class="btn btn-primary">remove</a>
+{% if jobs_model.user == request.user %}
+	<a href="{% url 'jobs:detail' jobs_model.slug %}" class="btn btn-primary">cancel</a>
 {% endif %}
 
 {% endblock %}	

@@ -36,9 +36,9 @@ def updatejob(request,slug):
 		obj = form.save(commit = False)
 		obj.save()
 		updated_slug = obj.company_name
-		print(f"saved ",obj.company_name)
+		print(f"saved slug======================",obj.company_name)
 		return redirect(reverse('jobs:detail',args=(updated_slug,)))
-	context = {'form':form}
+	context = {'form':form,'jobs_model':jobs_model}
 	return render(request,'updatejob.html',context)
 
 @login_required
