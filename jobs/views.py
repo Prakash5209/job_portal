@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect,get_object_or_404,reverse
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -35,7 +35,9 @@ def updatejob(request,slug):
 	if form.is_valid():
 		obj = form.save(commit = False)
 		obj.save()
-		return render(redirect('jobs:home',args=(slug,)))
+		updated_slug = obj.company_name
+		print(f"saved ",obj.company_name)
+		return redirect(reverse('jobs:detail',args=(updated_slug,)))
 	context = {'form':form}
 	return render(request,'updatejob.html',context)
 
