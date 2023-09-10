@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.utils.text import slugify
+from django.contrib import messages
 
 from jobs.forms import CreateJobForm
 from jobs.models import CreateJob
@@ -26,6 +27,7 @@ def createjob(request):
 		obj = form.save(commit = False)
 		obj.user = request.user
 		obj.save()
+		messages.add_message(request,messages.SUCCESS,'Job Created!')
 		return redirect('jobs:home')
 	context = {'form':form}
 	return render(request,'cj_form.html',context)
@@ -35,10 +37,11 @@ def updatejob(request,slug):
 	form = CreateJobForm(request.POST or None,request.FILES or None,instance=jobs_model)
 	if form.is_valid():
 		obj = form.save(commit = False)
+		messages.add_message(request,messages.SUCCESS,'job information Updated!')
 		obj.save()
 		updated_slug = obj.company_name
-		print(f"saved slug======================",obj.company_name)
-		print(f"saved slugify======================",slugify(obj.company_name))
+		# print(f"saved slug======================",obj.company_name)
+		# print(f"saved slugify======================",slugify(obj.company_name))
 		return redirect(reverse('jobs:detail',args=(slugify(obj.company_name),)))
 	context = {'form':form,'jobs_model':jobs_model}
 	return render(request,'updatejob.html',context)
@@ -56,6 +59,7 @@ def jobDelete(request,slug):
 	# job_detail = CreateJob.objects.get(slug=slug, user = request.user)
 	if job_detail:
 		job_detail.delete()
+		messages.add_message(request,messages.SUCCESS,'Successful deletion!')
 		return redirect('jobs:home')
 	context = {"job_detail":job_detail}
 	return render(request,'j_detail.html',context)
