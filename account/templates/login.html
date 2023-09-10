@@ -20,6 +20,7 @@
 	    <div class="card p-4">
 			<form method="post">
 				{% csrf_token %}
+				<h3 style="text-align: center;">Login</h3><hr>
 			  <div class="mb-3">
 			    <label class="form-label">Username</label>
 			    <input type="text-success" class="form-control" name="username">
@@ -28,9 +29,9 @@
 			    <label class="form-label">Password</label>
 			    <input type="password" class="form-control" name="password">
 			  </div>
-			  <button type="submit" class="btn btn-primary">Submit</button><br><br>
+			  <button type="submit" class="btn btn-primary">Login</button><br>
+			  <a href="#">forgot password?</a><br>
 			  <p>don't have account, let's dive in <a href="{% url 'account:usersignup' %}">Register</a></p>
-
 			</form>
 		</div>
     </div>
