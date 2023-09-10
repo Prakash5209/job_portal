@@ -53,6 +53,7 @@ def profile_view(request,username):
 
 def profile_update_view(request):
     form = ProfileForm(request.POST or None, request.FILES or None,instance=request.user.profile)
+    profile_model = get_object_or_404(Profile)
     if form.is_valid():
         user = request.user
         user.first_name = form.cleaned_data.get("first_name")
@@ -61,6 +62,6 @@ def profile_update_view(request):
         user.save()
         form.save()		
         return redirect(reverse("account:profile",args=(request.user.username,)))
-    context = {'form':form}
+    context = {'form':form,'profile_model':profile_model}
     return render(request,"profile.html",context)
 

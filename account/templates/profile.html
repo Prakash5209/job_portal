@@ -10,6 +10,14 @@
 {% endif %}
 {% if form %}
 <div>
+    <div>
+        {% if profile_model %}
+        {% for pro in profile_model %}
+            popo
+            <img src="{{ pro.image.url }}">
+        {% endfor %}
+        {% endif %}
+    </div>
     <form method="post" action="{% url 'account:profile_update' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
@@ -48,9 +56,6 @@
         </table>
     </div>
     <div class="col-sm-12 col-md-2 col-lg-2"></div>
-</div>
-<div>
-    {{form.as_p }}
 </div>
 {% endif %}
 {% endblock content %}
