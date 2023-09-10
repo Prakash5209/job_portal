@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404,reverse
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.utils.text import slugify
 
 from jobs.forms import CreateJobForm
 from jobs.models import CreateJob
@@ -37,7 +38,8 @@ def updatejob(request,slug):
 		obj.save()
 		updated_slug = obj.company_name
 		print(f"saved slug======================",obj.company_name)
-		return redirect(reverse('jobs:detail',args=(updated_slug,)))
+		print(f"saved slugify======================",slugify(obj.company_name))
+		return redirect(reverse('jobs:detail',args=(slugify(obj.company_name),)))
 	context = {'form':form,'jobs_model':jobs_model}
 	return render(request,'updatejob.html',context)
 
