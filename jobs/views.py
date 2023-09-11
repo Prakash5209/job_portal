@@ -53,14 +53,23 @@ def jobDetail(request,slug):
 	return render(request,'j_detail.html',context)
 
 
+# @login_required
+# def jobDelete(request,slug):
+# 	job_detail = get_object_or_404(CreateJob,slug=slug,user = request.user)
+# 	if job_detail:
+# 		job_detail.delete()
+# 		messages.add_message(request,messages.SUCCESS,'Successful deletion!')
+# 		return redirect('jobs:home')
+# 	context = {"job_detail":job_detail}
+# 	return render(request,'j_detail.html',context)
+
+
 @login_required
 def jobDelete(request,slug):
-	job_detail = get_object_or_404(CreateJob,slug=slug,user = request.user)
-	# job_detail = CreateJob.objects.get(slug=slug, user = request.user)
-	if job_detail:
-		job_detail.delete()
-		messages.add_message(request,messages.SUCCESS,'Successful deletion!')
-		return redirect('jobs:home')
-	context = {"job_detail":job_detail}
-	return render(request,'j_detail.html',context)
+	slug = request.POST.get('slug')
+	print(f"my slug==================={slug}")
+	post = get_object_or_404(CreateJob,slug = slug,user = request.user)
+	post.delete()
+	messages.add_message(request,messages.SUCCESS,'post deleted')
+	return redirect(reverse('jobs:home'))
 

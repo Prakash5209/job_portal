@@ -24,7 +24,53 @@
 
 {% if job_detail.user == request.user %}
 	<a href="{% url 'jobs:updatejob' job_detail.slug %}" class="btn btn-primary">update</a>
-	<a href="{% url 'jobs:jobdelete' job_detail.slug %}" class="btn btn-primary">remove</a>
+<!-- 	<a href="{% url 'jobs:jobdelete' job_detail.slug %}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">remove</a> -->
+<a href="#" class="btn btn-primary" data-slug="{{job_detail.slug}}" data-bs-toggle="modal" data-bs-target="#exampleModal">remove</a>
 {% endif %}
+
+
+<!-- bootstrap modal for deletion :"https://getbootstrap.com/docs/5.3/components/modal/#live-demo" -->
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Post</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="del-form" method="post" action="{% url 'jobs:jobdelete' job_detail.slug %}">
+        	{% csrf_token %}
+        	<input id="_slug" type="hidden" name="slug"/>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="del-btn" type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- bootstrap modal end -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    let modal = document.getElementById("exampleModal");
+    modal.addEventListener("show.bs.modal",function(evt){
+      let deleteButton = evt.relatedTarget;
+      $("#_slug").val(deleteButton.dataset.slug);
+    });
+    $("#del-btn").click(function(){
+      $("#del-form").submit();
+    })
+  });
+</script>
 
 {% endblock %}	
