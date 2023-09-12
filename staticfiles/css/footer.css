@@ -1,0 +1,31 @@
+.p-1 div ul li a{
+	color: #BBBBBB;
+	text-decoration: none;
+}
+.p-1 div ul{
+	padding: 0;
+	margin: 0;
+}
+.p-1 div ul li{
+	list-style: none;
+}
+.p-1 div ul li a:hover{
+	color:#ECECEC;
+}
+.info li a:hover{
+	color: #BBBBBB;
+	cursor: auto;
+}
+.info li div a{
+	padding: 5px;
+}
+.info li div a i:hover{
+	cursor: pointer;
+}
+
+.footer{
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
