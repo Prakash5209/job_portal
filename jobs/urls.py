@@ -1,6 +1,6 @@
 from django.urls import path
 
-from jobs.views import home,createjob,jobDetail,jobDelete,search_feature,updatejob,contactus
+from jobs.views import home,createjob,jobDetail,jobDelete,search_feature,updatejob,contactus,aboutus
 
 app_name = "jobs"
 urlpatterns = [
@@ -12,4 +12,5 @@ urlpatterns = [
     path('update-job/<slug:slug>/',updatejob,name="updatejob"),
 
     path('contact-us/',contactus,name="contactus"),
+    path('about-us/',aboutus,name="aboutus"),
 ]

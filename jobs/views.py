@@ -89,3 +89,17 @@ def contactus(request):
 	}
 	return render(request,'contactus.html',context)
 
+
+def aboutus(request):
+	title = "Welcome to the sabaikojobs.com"
+	first_para = "Welcome to sabaikojobs.com, the largest locally focused employment website in the nation! Our mission is to lead the Internet employment industry in Nepal by providing innovative information, superior resume management software and a comprehensive selection of services."
+	second_para = "sabaikojobs.com offers services to the recruiting and job-seeking community in Nepal. We are the only recruitment service provider with 100% free service to all the jobseekers."
+	third_para = "It is our mission to bring the burgeoning Nepalese Internet and computing talent to bear on international Web development."
+	context = {
+		'title':title,
+		'first_para':first_para,
+		'second_para':second_para,
+		'third_para':third_para,
+	}
+	return render(request,'aboutus.html',context)
+

@@ -9,7 +9,7 @@
                 <a href="{% url 'jobs:home' %}" class="nav-item nav-link">jobs</a>
                 <a href="{% url 'blog_post:articles' %}" class="nav-item nav-link">Blog</a>
                 <a href="{% url 'jobs:contactus' %}" class="nav-item nav-link">Contact us</a>
-                <a href="#" class="nav-item nav-link">About us</a>
+                <a href="{% url 'jobs:aboutus' %}" class="nav-item nav-link">About us</a>
             </div>
             <div class="navbar-nav ms-auto">
             {% if request.user.is_authenticated %}  
