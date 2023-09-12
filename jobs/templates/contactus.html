@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}
+	<title>Contact sabai ko job</title>
+{% endblock %}
+{% block content %}
+<div class="jumbotron jumbotron-fluid p-4">
+  <div class="container">
+    <h1 class="display-5">Contact Us</h1>
+  </div>
+</div><br>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<div class="card p-4">
+				<p>{{contact_Texts}}</p>
+				<ul>
+					{% for note in notes %}
+						<li>{{note}}</li>
+					{% endfor %}
+				</ul>
+				<p>{{contact_calls}}</p>
+			</div>
+		</div>
+		<div class="col">
+			<div class="card p-4">
+				<p class="fs-4">Get in touch with us</p>
+				<form method="post">
+					{% csrf_token %}
+					<table style="width:100%">
+						<tr>
+							<td style="width:10%"><label>Name</label></td>
+							<td><input type="text-success" name="name" class="form-control"></td>
+						</tr>
+						<tr>
+							<td><label>Email</label></td>
+							<td><input type="Email" name="name" class="form-control"></td>
+						</tr>
+						<tr>
+							<td><label>Mobile</label></td>
+							<td><input type="text" name="name" class="form-control"></td>
+						</tr>
+						<tr>
+							<td><label>Message</label></td>
+							<td><textarea class="form-control"></textarea></td>
+						</tr>
+						<tr>
+							<td><label></label></td>
+							<td><input type="submit" name="submit" class="btn btn-primary"></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

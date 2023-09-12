@@ -73,3 +73,19 @@ def jobDelete(request,slug):
 	messages.add_message(request,messages.SUCCESS,'post deleted')
 	return redirect(reverse('jobs:home'))
 
+
+def contactus(request):
+	contact_Texts = "If you have any questions or comments, we would very much like to hear from you. We value your comments, complaints, and suggestions."
+	notes = [
+		'For Further information on our services and the JobsNepal.com system, please use the form below or email:',
+		'For support and technical questions, please contact our support team: support@sabaikojobs.com',
+		'For Sales and Marketing questions, please contact our sales team: info@sabaikojobs.com'
+	]
+	contact_calls = 'You can also call us during business hours in Nepal at: (977-1) xxxxxxx/ xxxxxxx (Sunday-Friday)'
+	context = {
+		'contact_Texts':contact_Texts,
+		'notes':notes,
+		'contact_calls':contact_calls,
+	}
+	return render(request,'contactus.html',context)
+
