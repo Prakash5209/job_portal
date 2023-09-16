@@ -34,7 +34,6 @@ def createjob(request):
 
 def updatejob(request,slug):
 	jobs_model = get_object_or_404(CreateJob,slug=slug,user = request.user)
-    print(jobs_model)
 	form = CreateJobForm(request.POST or None,request.FILES or None,instance=jobs_model)
 	if form.is_valid():
 		obj = form.save(commit = False)
