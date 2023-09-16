@@ -9,6 +9,7 @@
 <div class="container mt-3">
   <div class="card mb-3">
     {% for blogphoto in blog_photo %}
+    {% if blogphoto.image %}
     <img src="{{ blogphoto.image.url }}" class="card-img-top" alt="ambitious" width="600" height="300" style="object-fit: cover;">
     <div class="p-3">
       <h2>Essential Career Development Tips for Ambitious Professionals</h2>
@@ -23,6 +24,7 @@
         </ul>
       </div>
     </div>
+    {% endif %}
     {% endfor %}
   </div>
 
