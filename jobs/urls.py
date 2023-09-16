@@ -11,6 +11,7 @@ urlpatterns = [
     path('search/',search_feature,name="search_feature"),
     path('update-job/<slug:slug>/',updatejob,name="updatejob"),
 
+    
     path('contact-us/',contactus,name="contactus"),
     path('about-us/',aboutus,name="aboutus"),
 ]
