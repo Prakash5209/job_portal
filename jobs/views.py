@@ -34,16 +34,12 @@ def createjob(request):
 
 def updatejob(request,slug):
 	jobs_model = get_object_or_404(CreateJob,slug=slug,user = request.user)
-	print(f"jobs model image ============== {jobs_model.image}")
 	form = CreateJobForm(request.POST or None,request.FILES or None,instance=jobs_model)
-	print(f"form image ============== {jobs_model.image}")
 	if form.is_valid():
 		obj = form.save(commit = False)
 		messages.add_message(request,messages.SUCCESS,'job information Updated!')
 		obj.save()
 		updated_slug = obj.company_name
-		# print(f"saved slug======================",obj.company_name)
-		# print(f"saved slugify======================",slugify(obj.company_name))
 		return redirect(reverse('jobs:detail',args=(slugify(obj.company_name),)))
 	context = {'form':form,'jobs_model':jobs_model}
 	return render(request,'updatejob.html',context)
