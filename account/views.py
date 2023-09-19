@@ -39,6 +39,7 @@ def userlogout(request):
 
 def profile_view(request,username):
     user = get_object_or_404(User,username=username)
+    profile = get_object_or_404(Profile)
     form = None
     if request.user.is_authenticated and request.user.username == username:
         user = request.user
@@ -48,7 +49,7 @@ def profile_view(request,username):
             'email':user.email,
             }
         form = ProfileForm(instance=user.profile,initial=initial_data)
-    context = {'user':user,'form':form}
+    context = {'user':user,'form':form,'profile':profile}
     return render(request,'profile.html',context)
 
 def profile_update_view(request):
