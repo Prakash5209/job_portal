@@ -22,15 +22,16 @@
                     </form>
                 </div> -->
 
-                <form class="row row-cols-lg-auto g-2 align-items-center">
+                <form method="post" class="row row-cols-lg-auto g-2 align-items-center" action="{% url 'jobs:search_feature' %}">
+                    {% csrf_token %}
                     <div class="col-12">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="subject">
+                            <input type="text" name="search_query" class="form-control" id="inlineFormInputGroupUsername" placeholder="subject">
                         </div>
                     </div>
-                  
+                    
                     <div class="col-12">
-                      <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
 
