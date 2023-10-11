@@ -10,7 +10,7 @@
             </div>
             <div class="col col-md-10">
                   
-                <div class="input-group mb-3"> 
+                <!-- <div class="input-group mb-3"> 
                     <form method="post" action="{% url 'jobs:search_feature' %}">
                         {% csrf_token %}
                         <input placeholder="search jobs" 
@@ -20,13 +20,27 @@
                         name="search_query">
                         <button class="btn btn-primary" type="submit">search</button>
                     </form>
-                </div>
+                </div> -->
+
+                <form class="row row-cols-lg-auto g-2 align-items-center">
+                    <div class="col-12">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="subject">
+                        </div>
+                    </div>
+                  
+                    <div class="col-12">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
 
             </div>
         </div>
     </div>
 </div>
 <br>
+
+
 <div class="row">
     {% if query %}
     <div class="row">
