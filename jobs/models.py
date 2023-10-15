@@ -21,6 +21,7 @@ class CreateJob(TimeStampModel):
 	website = models.CharField(max_length=255,blank=True,null=True)
 	email = models.EmailField(max_length=255)
 	description = models.TextField()
+	requirements = models.CharField(max_length=255)
 	user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,blank=True,null=True)
 	slug = models.SlugField(blank=True,null=True)
 
