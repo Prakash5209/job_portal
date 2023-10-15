@@ -6,16 +6,24 @@
 {% block content %}
 <h3>update page</h3>
 
-<div>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary" value="submit">save</button>
-    </form>    
+<div class="row">
+    <div class="col-8">
+        <div>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary" value="submit">save</button>
+                {% if jobs_model.user == request.user %}
+                    <a href="{% url 'jobs:detail' jobs_model.slug %}" class="btn btn-primary">cancel</a>
+                {% endif %}
+                
+            </form>    
+        </div>
+    </div>
+    <div class="col-4 border">
+        
+    </div>
 </div>
 
-{% if jobs_model.user == request.user %}
-	<a href="{% url 'jobs:detail' jobs_model.slug %}" class="btn btn-primary">cancel</a>
-{% endif %}
 
 {% endblock %}
