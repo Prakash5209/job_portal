@@ -29,13 +29,16 @@
 			padding-bottom: 400px;
 			box-sizing: inherit;
 		}
+		.body-container{
+			min-height: 80vh;
+		}
 	</style>
 </head>
 <body>
 	{% block navbar %}
 		{% include 'navbar.html' %}
 	{% endblock %}	
-	<div class="container">
+	<div class="container body-container">
 		{% block content %}
 		{% endblock %}	
 	</div>

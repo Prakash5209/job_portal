@@ -53,6 +53,13 @@
 				</form>
 			</div>
 		</div>
+	</div><br>
+	<div>
+		{% for contactimage in contactimagemap %}
+			{% if contactimage.image %}
+				<img src="{{ contactimage.image.url }}" alt="contactus map" width="1271">
+			{% endif %}
+		{% endfor %}
 	</div>
 </div>
 {% endblock %}

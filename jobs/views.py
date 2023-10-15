@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from django.contrib import messages
 
 from jobs.forms import CreateJobForm
-from jobs.models import CreateJob
+from jobs.models import CreateJob,ContactusImageMap
 
 def home(request):
 	jobs_modl = CreateJob.objects.all()
@@ -73,6 +73,8 @@ def jobDelete(request,slug):
 
 
 def contactus(request):
+	contactimagemap = ContactusImageMap.objects.all()
+	print(contactimagemap)
 	contact_Texts = "If you have any questions or comments, we would very much like to hear from you. We value your comments, complaints, and suggestions."
 	notes = [
 		'For Further information on our services and the JobsNepal.com system, please use the form below or email:',
@@ -84,6 +86,7 @@ def contactus(request):
 		'contact_Texts':contact_Texts,
 		'notes':notes,
 		'contact_calls':contact_calls,
+		'contactimagemap':contactimagemap,
 	}
 	return render(request,'contactus.html',context)
 

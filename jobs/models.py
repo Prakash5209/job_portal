@@ -30,3 +30,7 @@ class CreateJob(TimeStampModel):
 	def save(self,*args,**kwargs):
 		self.slug = slugify(self.company_name)
 		super().save(*args,**kwargs)
+
+class ContactusImageMap(models.Model):
+	title = models.CharField(max_length=255)
+	image = models.ImageField(upload_to="map",blank=False,null=False)
