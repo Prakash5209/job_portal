@@ -74,8 +74,7 @@ def jobDelete(request,slug):
 
 
 def contactus(request):
-	contactimagemap = ContactusImageMap.objects.all()
-	print(contactimagemap)
+	# contactimagemap = ContactusImageMap.objects.all()
 	contact_Texts = "If you have any questions or comments, we would very much like to hear from you. We value your comments, complaints, and suggestions."
 	notes = [
 		'For Further information on our services and the JobsNepal.com system, please use the form below or email:',
@@ -87,7 +86,7 @@ def contactus(request):
 		'contact_Texts':contact_Texts,
 		'notes':notes,
 		'contact_calls':contact_calls,
-		'contactimagemap':contactimagemap,
+		# 'contactimagemap':contactimagemap,
 	}
 	return render(request,'contactus.html',context)
 
