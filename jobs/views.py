@@ -13,7 +13,9 @@ from jobs.models import CreateJob,ContactusImageMap,Create_topic,Topic_field
 formset_fac = formset_factory(Select_title_field_Form,extra = 0)
 
 def home(request):
-	jobs_modl = CreateJob.objects.all()
+
+
+	jobs_modl = CreateJob.objects.all()		
 	context = {'jobs':jobs_modl}
 	return render(request,'home.html',context)
 
@@ -40,7 +42,6 @@ def createjob(request):
 		obj = form.save(commit = False)
 		obj.user = request.user
 		obj.save()
-		print(obj.id)
 		# data = {'name':form.cleaned_data['company_name']}
 		data = {'id':obj.id}
 		# return redirect('jobs:home')
@@ -51,8 +52,6 @@ def createjob(request):
 		for i in range(len(formset)):
 			fields = request.POST.get(f'items-{str(i)}-fields')
 			title_id = request.POST.get('title')
-			print(title_id)
-			print(fields)
 			for j in Create_topic.objects.all():
 				if j.title == title_id:
 					Topic_field(choose_topic = j,field = fields).save()
@@ -91,12 +90,30 @@ def createjob_topic_creation(request):
 
 
 
-
+# retrieve CreateTopic data with fetch api
 def fetch_topic_creation(request):
 	create_topic_model = Create_topic.objects.filter(createjob = max([i.id for i in CreateJob.objects.all()]))
-	# topic_field_model = Topic_field.objects.filter(choose_topic = max([i.id for i in Create_topic.objects.all()]))
 	# render topic_field in cj_template
 	return JsonResponse(list(create_topic_model.values()),safe=False)
+
+def fetch_topic_fields(request):
+	# topic_field_model = Topic_field.objects.filter(choose_topic = max([i.id for i in Create_topic.objects.all()]))
+	createjob = CreateJob.objects.all()
+	create_topic = Create_topic.objects.all()
+	topic_field = Topic_field.objects.all()
+	dic = {}
+	createjob_max_id = max([i.id for i in createjob])	
+	for j in topic_field:
+		for i in create_topic:
+			if i.createjob.id == createjob_max_id:
+				if j.choose_topic.id == i.id:
+					dic[f'{j.field}'] = j.field
+					print(f"{i}--{j.field}")
+	print(dic)
+	return JsonResponse(dic,safe=False)
+	# return JsonResponse(list(topic_field_model.values()),safe=False)
+
+
 
 
 def updatejob(request,slug):

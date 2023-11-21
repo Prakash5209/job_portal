@@ -61,8 +61,11 @@
 				<div class="empty_form">{{ formset.empty_form.as_p }}</div>
 				<button type="button" class="btn btn-primary" id="add_fields">add title box with textarea</button>
 				<input type="submit" class="btn btn-primary" value="save" id="save_fields">
-			</form>
-			<div id="fields_list">
+			</form><br>
+			<div>
+				<div id="fields_list">
+					<ol id="fields_ol_id"></ol>
+				</div>
 			</div>
 		</div>
     </div>
@@ -74,7 +77,9 @@
 </div>
 
 <script>
+
 	let bul = false
+	let fields_bul = false
 
 	document.getElementById('company-form').addEventListener('submit',create_job_save_function);
 	function create_job_save_function(e){
@@ -139,7 +144,7 @@
 		.then(topic_created_id => {
 			alert('topic saved');
 			console.log(topic_created_id);
-
+			fields_bul = true
 			const id_title = document.getElementById('id_title');
 
 			for(let x in topic_created_id){
@@ -162,7 +167,7 @@
 			fetch('{% url "jobs:fetch_topic_creation" %}')
 			.then(response =>{
 				if(!response.ok){
-					throw new Error('network response was not okay');
+					throw new Error('network response was not okay fetching: create_topic_model');
 				}
 				return response.json();
 			})
@@ -180,6 +185,9 @@
 			.catch(error =>{
 				console.error('error',error);
 			})
+
+
+
 		}
 		else{
 			// console.log('error');
@@ -187,6 +195,36 @@
 	}
 	// fetchData();
 	setInterval(fetchData,1000);
+
+	function fetch_topic_fields_function(){
+		if(fields_bul == true){
+			fetch('{% url "jobs:fetch_topic_fields" %}')
+			.then(response =>{
+				if(!response.ok){
+					throw new Error('network response was not okay fetching topic_fields');
+				}
+				return response.json();
+			})
+			.then(dic =>{
+				let answer = document.getElementById('id_title').value
+				console.log(answer)
+
+				const fields_ol_id = document.getElementById('fields_ol_id');
+				fields_ol_id.innerHTML = '';
+				for(let x in dic){
+					var new_element_li = document.createElement('li');
+					new_element_li.innerHTML = `${x}`;
+					fields_ol_id.append(new_element_li);
+					console.log(x);
+				}
+			})
+			.catch(error =>{
+				console.error('error',error);
+			})
+		}
+	}
+	// fetch_topic_fields_function;
+	setInterval(fetch_topic_fields_function,1000);
 
 	document.getElementById('create_topic_save').addEventListener('click',()=>{
 		document.getElementById('topic_inputs').value = '';

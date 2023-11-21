@@ -1,6 +1,6 @@
 from django.urls import path
 
-from jobs.views import home,createjob,jobDetail,jobDelete,search_feature,updatejob,contactus,aboutus,createjob_topic_creation,fetch_topic_creation
+from jobs.views import home,createjob,jobDetail,jobDelete,search_feature,updatejob,contactus,aboutus,createjob_topic_creation,fetch_topic_creation,fetch_topic_fields
 
 app_name = "jobs"
 urlpatterns = [
@@ -11,6 +11,7 @@ urlpatterns = [
 
     # fetch api url
     path('fetch_topic_creation/',fetch_topic_creation,name="fetch_topic_creation"),
+    path('fetch_topic_fields/',fetch_topic_fields,name="fetch_topic_fields"),
 
 	path('detail/<slug:slug>/',jobDetail,name="detail"),
     path('jobdelete/<slug:slug>/',jobDelete,name="jobdelete"),
