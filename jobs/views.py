@@ -84,20 +84,10 @@ def createjob_topic_creation(request):
 				# topic_created_id['id'] = obj.id
 				topic_created_id[obj.id] = obj.title
 		
-		# title_data = json.dumps(topic_created_id)
-		# print(type(title_data))
 		return JsonResponse(topic_created_id,safe=False)
-		# for i in Create_topic.objects.all():
-		# 	if i.id == topic_created_id:
-		# 		print(i)
-		# print(Create_topic.objects.all())
-		# title_data = [i for i in Create_topic.objects.all() if i.id == topic_created_id]
-		# return JsonResponse(list(title_data.values()),safe=False)
 
-				# title_data = {'obj':obj}
-				# return JsonResponse(title_data,safe=False)
 	context = {}
-	return render(request,'cj_form.html')
+	return render(request,'cj_form.html',context)
 
 
 
@@ -128,18 +118,6 @@ def jobDetail(request,slug):
 	job_detail = CreateJob.objects.get(slug = slug)
 	context = {'job_detail':job_detail}
 	return render(request,'j_detail.html',context)
-
-
-# @login_required
-# def jobDelete(request,slug):
-# 	job_detail = get_object_or_404(CreateJob,slug=slug,user = request.user)
-# 	if job_detail:
-# 		job_detail.delete()
-# 		messages.add_message(request,messages.SUCCESS,'Successful deletion!')
-# 		return redirect('jobs:home')
-# 	context = {"job_detail":job_detail}
-# 	return render(request,'j_detail.html',context)
-
 
 @login_required
 def jobDelete(request,slug):

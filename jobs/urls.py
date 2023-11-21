@@ -8,7 +8,6 @@ urlpatterns = [
 	path('createjob/',createjob,name="createjob"),
     path('createjob_topic_creation/',createjob_topic_creation,name='createjob_topic_creation'),
 
-    # path('createjob/',createjob_topic_creation_fields,name='createjob_topic_creation_fields'),
 
     # fetch api url
     path('fetch_topic_creation/',fetch_topic_creation,name="fetch_topic_creation"),
