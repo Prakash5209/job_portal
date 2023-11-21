@@ -12,6 +12,10 @@
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
+                {% for i in addition_fields %}
+                    <input type="text" value="{{i.name}}">
+                    <input type="text" value="{{i.description}}">
+                {% endfor %}
                 <button type="submit" class="btn btn-primary" value="submit">save</button>
                 {% if jobs_model.user == request.user %}
                     <a href="{% url 'jobs:detail' jobs_model.slug %}" class="btn btn-primary">cancel</a>
@@ -21,7 +25,6 @@
         </div>
     </div>
     <div class="col-4 border">
-        
     </div>
 </div>
 

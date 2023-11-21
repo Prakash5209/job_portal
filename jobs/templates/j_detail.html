@@ -20,10 +20,14 @@
 		<p>{{job_detail.address}}</p>
 		<p>{{job_detail.website}}</p>
 		<p>{{job_detail.email}}</p>
-		<p>{{job_detail.description}}</p>
+		<p>{{job_detail.company_description}}</p>
     <p>{{job_detail.requirements}}</p>
 		<p>{{job_detail.user}}</p>
-		
+    <hr>
+    {% for j in modl %}
+      <h3>{{j.name}}</h3>
+      <p>{{j.description}}</p>
+    {% endfor %}
 		
 		
 		{% if job_detail.user == request.user %}

@@ -1,7 +1,6 @@
 from django import forms
-from django.forms import modelformset_factory
 
-from jobs.models import CreateJob
+from jobs.models import CreateJob,Create_topic,Topic_field,Create_topic
 
 class CreateJobForm(forms.ModelForm):
 	class Meta:
@@ -16,6 +15,33 @@ class CreateJobForm(forms.ModelForm):
 			self.fields[field].widget.attrs.update({'class':'form-control'})
 
 
-# CreateJobFormSet = modelformset_factory(
-# 	CreateJob, fields = ("requirements",), extra = 0
-# )
+class Create_topic_Form(forms.ModelForm):
+	class Meta:
+		model = Create_topic
+		fields = '__all__'
+
+	def __init__(self,*args,**kwargs):
+		super().__init__(*args,**kwargs)
+
+		for field in self.fields:
+			self.fields[field].widget.attrs.update({'class':'form-control'})
+
+	
+
+# class Select_title_Form(forms.Form):
+# 	title = forms.ModelChoiceField(queryset=Create_topic.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
+
+class Select_title_field_Form(forms.Form):
+	fields = forms.CharField(max_length=255,widget=forms.TextInput(attrs={'class':'form-control'}))
+
+
+# class Topic_field_Form(forms.ModelForm):
+# 	class Meta:
+# 		model = Topic_field
+# 		fields = '__all__'
+
+# 	def __init__(self,*args,**kwargs):
+# 		super().__init__(*args,**kwargs)
+
+# 		for field in self.fields:
+# 			self.fields[field].widget.attrs.update({'class':'form-control'})

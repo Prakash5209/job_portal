@@ -1,13 +1,16 @@
 from django.shortcuts import render,redirect,get_object_or_404,reverse
-from django.http import HttpResponse
+from django.http import JsonResponse,HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.utils.text import slugify
 from django.contrib import messages
+from django.forms import formset_factory
+import json
 
-from jobs.forms import CreateJobForm
-# from jobs.forms import CreateJobFormSet
-from jobs.models import CreateJob,ContactusImageMap
+from jobs.forms import CreateJobForm,Create_topic_Form,Select_title_field_Form
+from jobs.models import CreateJob,ContactusImageMap,Create_topic,Topic_field
+
+formset_fac = formset_factory(Select_title_field_Form,extra = 0)
 
 def home(request):
 	jobs_modl = CreateJob.objects.all()
@@ -16,26 +19,101 @@ def home(request):
 
 def search_feature(request):
 	if request.method == 'POST':
-		search_query = request.POST['search_query']
+		search_query = request.POST.get('search_query')
 		jobs_modl = CreateJob.objects.filter(Q(company_name__icontains=search_query) | Q(job_title__icontains=search_query))
 		context = {'query':search_query,'searched':jobs_modl}
 		return render(request,'home.html',context)
-
+	
 @login_required
 def createjob(request):
 	form = CreateJobForm(request.POST or None,request.FILES or None)
+	create_topic_form = Create_topic_Form(request.POST or None)
+	formset = formset_fac(request.POST or None,prefix = 'items')
+
+	# if request.method == 'POST':
+	# 	print(request.POST.get(f'items-{str(0)}-fields'))
+
+	createjob_model = CreateJob.objects.all()
+	# create_topic_models = Create_topic.objects.filter(createjob = max([i.id for i in CreateJob.objects.all()]))
+
 	if form.is_valid():
 		obj = form.save(commit = False)
 		obj.user = request.user
 		obj.save()
+		print(obj.id)
+		# data = {'name':form.cleaned_data['company_name']}
+		data = {'id':obj.id}
+		# return redirect('jobs:home')
 		messages.add_message(request,messages.SUCCESS,'Job Created!')
-		return redirect('jobs:home')
-	context = {'form':form}
+		return JsonResponse(data,safe=False)
+	
+	if request.method == 'POST':
+		for i in range(len(formset)):
+			fields = request.POST.get(f'items-{str(i)}-fields')
+			title_id = request.POST.get('title')
+			print(title_id)
+			print(fields)
+			for j in Create_topic.objects.all():
+				if j.title == title_id:
+					Topic_field(choose_topic = j,field = fields).save()
+					print('saved')
+					data_fields = {'status':'success'}
+		return JsonResponse(data_fields,safe=False)
+		
+
+
+	context = {
+		'form':form,
+		'formset':formset,
+		'create_topic_form':create_topic_form,
+		# 'create_topic_models':create_topic_models,
+		'createjob_model':createjob_model,
+		}
 	return render(request,'cj_form.html',context)
+
+
+def createjob_topic_creation(request):
+	if request.method == 'POST':
+		topic_created_id = {}
+		max_id = max([i.id for i in CreateJob.objects.all()])
+		for i in CreateJob.objects.all():
+			if i.id == max_id:
+				obj = Create_topic(createjob = i,title = request.POST.get('title'))
+				obj.save()
+				# topic_created_id['title'] = obj.title
+				# topic_created_id['id'] = obj.id
+				topic_created_id[obj.id] = obj.title
+		
+		# title_data = json.dumps(topic_created_id)
+		# print(type(title_data))
+		return JsonResponse(topic_created_id,safe=False)
+		# for i in Create_topic.objects.all():
+		# 	if i.id == topic_created_id:
+		# 		print(i)
+		# print(Create_topic.objects.all())
+		# title_data = [i for i in Create_topic.objects.all() if i.id == topic_created_id]
+		# return JsonResponse(list(title_data.values()),safe=False)
+
+				# title_data = {'obj':obj}
+				# return JsonResponse(title_data,safe=False)
+	context = {}
+	return render(request,'cj_form.html')
+
+
+
+
+def fetch_topic_creation(request):
+	create_topic_model = Create_topic.objects.filter(createjob = max([i.id for i in CreateJob.objects.all()]))
+	# topic_field_model = Topic_field.objects.filter(choose_topic = max([i.id for i in Create_topic.objects.all()]))
+	# render topic_field in cj_template
+	return JsonResponse(list(create_topic_model.values()),safe=False)
+
 
 def updatejob(request,slug):
 	jobs_model = get_object_or_404(CreateJob,slug=slug,user = request.user)
 	form = CreateJobForm(request.POST or None,request.FILES or None,instance=jobs_model)
+	# formset = formset_fac(request.POST or None,prefix = 'items')
+
 	if form.is_valid():
 		obj = form.save(commit = False)
 		messages.add_message(request,messages.SUCCESS,'job information Updated!')
@@ -45,7 +123,7 @@ def updatejob(request,slug):
 	context = {'form':form,'jobs_model':jobs_model}
 	return render(request,'updatejob.html',context)
 
-@login_required
+# @login_required
 def jobDetail(request,slug):
 	job_detail = CreateJob.objects.get(slug = slug)
 	context = {'job_detail':job_detail}

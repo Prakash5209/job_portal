@@ -4,15 +4,66 @@
 {% endblock %}
 {% block content %}
 
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+<style>
+	.empty_form{
+		display:none;	
+	}
+</style>
+
 <div class="container">
   <div class="row">
 	<div class="col-md-8">
 		<div>
-			<form method="post" enctype="multipart/form-data">
+			<form method="post" enctype="multipart/form-data" id="company-form">
 				{% csrf_token %}
 				{{ form.as_p }}
-				<input type="submit" value="submit">
+				<input type="submit" class="btn btn-primary" value="save" id="create_job_save">
 			</form>
+		</div>
+		<br><hr>
+		<div>
+			<h4>Create topic</h4>
+			<form method="post" id="create-topic">
+				{% csrf_token %}
+				<!-- {{ create_topic_form.as_p }} -->
+				<input type="text" class="form-control" name="title" id="topic_inputs">
+				<br>
+				<input type="submit" class="btn btn-primary" value="save topic" id="create_topic_save">
+			</form><br>
+			<div id="topic_list">
+				<ol id="topic_list_ol"></ol>
+			</div>
+		</div>
+		<br><hr>
+		<div>
+			<form method="post" id="save_multiple_fields">
+				<h4>Choose the topic and write additional informations</h4>
+				{% csrf_token %}
+				<label for="id_title"></label>
+				<select name="title" id="id_title" class="form-control">
+					<option value selected>------</option>
+					<!-- {% for i in create_topic_models %}
+						<option value="{{i.id}}">{{i}}</option>
+					{% endfor %} -->
+				</select>
+				 {{ select_title_form }}
+				<br>
+				<div class="form_list">
+					{{ formset.management_form }}
+					{% for formset_form in formset %}
+						<div class="real_form">
+							{{ formset_form.as_p }}
+						</div>
+					{% endfor %}
+				</div>
+				<div class="empty_form">{{ formset.empty_form.as_p }}</div>
+				<button type="button" class="btn btn-primary" id="add_fields">add title box with textarea</button>
+				<input type="submit" class="btn btn-primary" value="save" id="save_fields">
+			</form>
+			<div id="fields_list">
+			</div>
 		</div>
     </div>
     <div class="col">
@@ -22,5 +73,157 @@
   </div>
 </div>
 
+<script>
+	let bul = false
+
+	document.getElementById('company-form').addEventListener('submit',create_job_save_function);
+	function create_job_save_function(e){
+		e.preventDefault();
+
+		const formData = new FormData(document.getElementById('company-form'));
+		console.log(formData);
+
+		fetch('{% url "jobs:createjob" %}', {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => response.json())
+		.then(data =>{
+			alert('company introduction saved')
+			console.log(data)
+			bul = true
+		})
+		.catch(error => {
+			console.error('error',error);
+		});
+	}	
+
+
+	// saveing multiple inputs fields
+	document.getElementById('save_multiple_fields').addEventListener('submit',save_multiple_inputs);
+	function save_multiple_inputs(e){
+		if(e){
+			e.preventDefault();
+		}
+		// console.log(e);
+		// var minputs_length = -1;
+		// const minputs = document.getElementsByClassName('real_form');
+		// for(let i in minputs){
+		// 	minputs_length += 1;
+		// }
+		// console.log(minputs_length-3)
+		const formData = new FormData(this);
+
+		console.log(`---------${formData}`)
+
+		fetch('{% url "jobs:createjob" %}',{
+			method:'POST',
+			body: formData,
+		})
+		.then(response => response.json())
+		.then(status => {
+			console.log('success',status);
+			alert('saved');
+		})
+		.catch(error => {
+			console.error('error,',error);
+		})
+	}
+
+	// create topic with create jobs name
+	document.getElementById('create_topic_save').addEventListener("click",create_topic_save_function);
+	function create_topic_save_function(e){
+		e.preventDefault();
+		const formData = new FormData(document.getElementById('create-topic'));
+		console.log(formData);
+
+		fetch('{% url "jobs:createjob_topic_creation" %}', {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => response.json())
+		.then(topic_created_id => {
+			alert('topic saved');
+			console.log(topic_created_id);
+
+			const id_title = document.getElementById('id_title');
+
+			for(let x in topic_created_id){
+				var new_element = document.createElement('option');
+				new_element.setAttribute('id',x);
+				new_element.innerHTML = `${topic_created_id[x]}`;
+				id_title.append(new_element);
+				console.log(x,topic_created_id[x]);
+			}
+		})
+		.catch(error => {
+			console.error('error',error);
+		});
+
+	}
+
+	// function to use fetch api to render the created topic on real time 
+	function fetchData(){
+		if(bul == true){
+			fetch('{% url "jobs:fetch_topic_creation" %}')
+			.then(response =>{
+				if(!response.ok){
+					throw new Error('network response was not okay');
+				}
+				return response.json();
+			})
+			.then(create_topic_model =>{
+				const topic_list = document.getElementById('topic_list_ol');
+				topic_list.textContent = '';
+				for(let title of create_topic_model){
+					console.log(title)
+					let new_element = document.createElement('li');
+					new_element.textContent = `${title.title}`;
+					topic_list.append(new_element)
+				}
+
+			})
+			.catch(error =>{
+				console.error('error',error);
+			})
+		}
+		else{
+			// console.log('error');
+		}
+	}
+	// fetchData();
+	setInterval(fetchData,1000);
+
+	document.getElementById('create_topic_save').addEventListener('click',()=>{
+		document.getElementById('topic_inputs').value = '';
+	})
+
+
+
+	const form_count = document.getElementsByClassName('real_form');
+	const id_items_TOTAL_FORMS = document.getElementById('id_items-TOTAL_FORMS')
+
+	var add_fields = document.getElementById('add_fields');
+	add_fields.addEventListener('click',add_fields_function);
+	function add_fields_function(event){
+		if(event){
+			event.preventDefault();
+		}
+		// console.log(form_count.length)
+
+		const empty_form = document.querySelector('.empty_form').cloneNode(true);
+		const form_list = document.querySelector('.form_list');
+		empty_form.setAttribute('class','real_form');
+		empty_form.setAttribute('id',`form-${form_count.length}`)
+
+		id_items_TOTAL_FORMS.setAttribute('value',form_count.length + 1);
+
+		const regex = new RegExp('__prefix__','g'); 
+		empty_form.innerHTML = empty_form.innerHTML.replace(regex,form_count.length);
+
+		form_list.append(empty_form);
+
+	}
+</script>
 
 {% endblock %}s

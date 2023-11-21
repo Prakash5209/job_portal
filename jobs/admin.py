@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from jobs.models import CreateJob,ContactusImageMap
+from jobs.models import CreateJob,ContactusImageMap,Create_topic,Topic_field
 
 @admin.register(CreateJob)
 class CreateJobAdmin(admin.ModelAdmin):
@@ -11,3 +11,6 @@ class CreateJobAdmin(admin.ModelAdmin):
 @admin.register(ContactusImageMap)
 class ContactusImageMapAdmin(admin.ModelAdmin):
 	list_display = ("image",)
+
+admin.site.register(Create_topic)
+admin.site.register(Topic_field)
