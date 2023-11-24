@@ -9,24 +9,77 @@
 <div class="row">
     <div class="col-8">
         <div>
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data" id="update_company_intro">
                 {% csrf_token %}
                 {{ form.as_p }}
-                {% for i in addition_fields %}
-                    <input type="text" value="{{i.name}}">
-                    <input type="text" value="{{i.description}}">
-                {% endfor %}
-                <button type="submit" class="btn btn-primary" value="submit">save</button>
+                <button type="submit" class="btn btn-primary" value="submit" id="update_button">save</button>
                 {% if jobs_model.user == request.user %}
                     <a href="{% url 'jobs:detail' jobs_model.slug %}" class="btn btn-primary">cancel</a>
                 {% endif %}
                 
-            </form>    
+            </form>  
+            <hr>
+            <form method="post" id="form_container_html_form">
+                {% csrf_token %}
+                {{ customformcontainer.as_p }}
+                <input type="submit" value="submit" class="btn btn-primary" id="form_container_save">
+            </form>  
+            {{ customformcontainer.media }}
         </div>
     </div>
     <div class="col-4 border">
     </div>
 </div>
 
+<script>
+    CKEDITOR.replace('{{ customformcontainer.content.id_for_label }}',{
+        height:500,
+    });
+
+    document.getElementById('update_button').addEventListener('click',update_button_function);
+    function update_button_function(e){
+        if(e){
+            e.preventDefault();
+        }
+        console.log(e);
+
+        const formData = new FormData(document.getElementById('update_company_intro'))
+        fetch('{% url "jobs:updatejob" jobs_model.slug %}',{
+            method:'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(status =>{
+            alert('done')
+            console.log(status);
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+    }
+
+    // document.getElementById('form_container_save').addEventListener('click',form_container_update_button_function);
+    // function form_container_update_button_function(e){
+    //     if(e){
+    //         e.preventDefault();
+    //     }
+    //     console.log(e);
+
+    //     const formData = new FormData(document.getElementById('form_container_html_form'))
+    //     fetch('{% url "jobs:updatejob" jobs_model.slug %}',{
+    //         method:'POST',
+    //         body: formData,
+    //     })
+    //     .then(response => response.json())
+    //     .then(status =>{
+    //         alert('done')
+    //         console.log(status);
+    //     })
+    //     .catch(error =>{
+    //         console.log(error);
+    //     })
+    // }
+
+</script>
 
 {% endblock %}

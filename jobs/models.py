@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from autoslug import AutoSlugField
+from ckeditor.fields import RichTextField
 from django.utils.text import slugify
 
 from django.conf import settings
@@ -35,19 +36,28 @@ class CreateJob(TimeStampModel):
 		super().save(*args,**kwargs)
 		# About_more_job_info.objects.create(createjob = self)
 
-class Create_topic(models.Model):
+# class Create_topic(models.Model):
+# 	createjob = models.ForeignKey(CreateJob,on_delete=models.CASCADE)
+# 	title = models.CharField(max_length=255)
+
+# 	def __str__(self):
+# 		return self.title
+	
+# class Topic_field(models.Model):
+# 	choose_topic = models.ForeignKey(Create_topic,on_delete=models.CASCADE)
+# 	field = models.CharField(max_length=255)
+
+# 	def __str__(self):
+# 		return f"{self.choose_topic}-{self.field}"
+
+class FormContainer(models.Model):
 	createjob = models.ForeignKey(CreateJob,on_delete=models.CASCADE)
 	title = models.CharField(max_length=255)
+	# content = RichTextField(blank=True,null=True)
+	content = models.TextField()
 
 	def __str__(self):
 		return self.title
-	
-class Topic_field(models.Model):
-	choose_topic = models.ForeignKey(Create_topic,on_delete=models.CASCADE)
-	field = models.CharField(max_length=255)
-
-	def __str__(self):
-		return f"{self.choose_topic}-{self.field}"
 
 
 class ContactusImageMap(models.Model):

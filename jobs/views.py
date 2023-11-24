@@ -7,14 +7,10 @@ from django.contrib import messages
 from django.forms import formset_factory
 import json
 
-from jobs.forms import CreateJobForm,Create_topic_Form,Select_title_field_Form
-from jobs.models import CreateJob,ContactusImageMap,Create_topic,Topic_field
-
-formset_fac = formset_factory(Select_title_field_Form,extra = 0)
+from jobs.forms import CreateJobForm,FormContainerForm,CustomFormContainer
+from jobs.models import CreateJob,ContactusImageMap,FormContainer
 
 def home(request):
-
-
 	jobs_modl = CreateJob.objects.all()		
 	context = {'jobs':jobs_modl}
 	return render(request,'home.html',context)
@@ -29,111 +25,93 @@ def search_feature(request):
 @login_required
 def createjob(request):
 	form = CreateJobForm(request.POST or None,request.FILES or None)
-	create_topic_form = Create_topic_Form(request.POST or None)
-	formset = formset_fac(request.POST or None,prefix = 'items')
+	second_form = CustomFormContainer(request.POST or None)
+	modl = CreateJob.objects.all()
+	# formset = formset_fac(request.POST or None,prefix = 'items')
 
-	# if request.method == 'POST':
-	# 	print(request.POST.get(f'items-{str(0)}-fields'))
+	createjob_max_id = max([i.id for i in modl])
 
 	createjob_model = CreateJob.objects.all()
-	# create_topic_models = Create_topic.objects.filter(createjob = max([i.id for i in CreateJob.objects.all()]))
 
 	if form.is_valid():
 		obj = form.save(commit = False)
 		obj.user = request.user
 		obj.save()
-		# data = {'name':form.cleaned_data['company_name']}
-		data = {'id':obj.id}
-		# return redirect('jobs:home')
+		print(obj.id)
 		messages.add_message(request,messages.SUCCESS,'Job Created!')
-		return JsonResponse(data,safe=False)
+		return JsonResponse({'status':'success'},safe=False)
 	
 	if request.method == 'POST':
-		for i in range(len(formset)):
-			fields = request.POST.get(f'items-{str(i)}-fields')
-			title_id = request.POST.get('title')
-			for j in Create_topic.objects.all():
-				if j.title == title_id:
-					Topic_field(choose_topic = j,field = fields).save()
-					print('saved')
-					data_fields = {'status':'success'}
-		return JsonResponse(data_fields,safe=False)
-		
+		name = request.POST.get('title')
+		content = request.POST.get('content')
+		for i in modl:
+			if i.id == createjob_max_id:
+				FormContainer(createjob=i,title=name,content=content).save()
+				print('saved')
+				return redirect('jobs:home')
+				# return JsonResponse({'status':'success'},safe=False)
 
 
 	context = {
 		'form':form,
-		'formset':formset,
-		'create_topic_form':create_topic_form,
-		# 'create_topic_models':create_topic_models,
+		'second_form':second_form,
 		'createjob_model':createjob_model,
 		}
 	return render(request,'cj_form.html',context)
 
-
-def createjob_topic_creation(request):
-	if request.method == 'POST':
-		topic_created_id = {}
-		max_id = max([i.id for i in CreateJob.objects.all()])
-		for i in CreateJob.objects.all():
-			if i.id == max_id:
-				obj = Create_topic(createjob = i,title = request.POST.get('title'))
-				obj.save()
-				# topic_created_id['title'] = obj.title
-				# topic_created_id['id'] = obj.id
-				topic_created_id[obj.id] = obj.title
-		
-		return JsonResponse(topic_created_id,safe=False)
-
-	context = {}
-	return render(request,'cj_form.html',context)
-
-
-
-# retrieve CreateTopic data with fetch api
-def fetch_topic_creation(request):
-	create_topic_model = Create_topic.objects.filter(createjob = max([i.id for i in CreateJob.objects.all()]))
-	# render topic_field in cj_template
-	return JsonResponse(list(create_topic_model.values()),safe=False)
-
-def fetch_topic_fields(request):
-	# topic_field_model = Topic_field.objects.filter(choose_topic = max([i.id for i in Create_topic.objects.all()]))
-	createjob = CreateJob.objects.all()
-	create_topic = Create_topic.objects.all()
-	topic_field = Topic_field.objects.all()
-	dic = {}
-	createjob_max_id = max([i.id for i in createjob])	
-	for j in topic_field:
-		for i in create_topic:
-			if i.createjob.id == createjob_max_id:
-				if j.choose_topic.id == i.id:
-					dic[f'{j.field}'] = j.field
-					print(f"{i}--{j.field}")
-	print(dic)
-	return JsonResponse(dic,safe=False)
-	# return JsonResponse(list(topic_field_model.values()),safe=False)
-
-
-
-
 def updatejob(request,slug):
 	jobs_model = get_object_or_404(CreateJob,slug=slug,user = request.user)
 	form = CreateJobForm(request.POST or None,request.FILES or None,instance=jobs_model)
-	# formset = formset_fac(request.POST or None,prefix = 'items')
+
+	formContainermodel = FormContainer.objects.get(createjob = jobs_model.id)
+	print('choosen one',formContainermodel.id)
+
+	# formcontainer_choose_one = FormContainer.objects.get(id = 10)
+
+	
+
+
+	customformcontainer = CustomFormContainer(initial={'title':formContainermodel.title,'content':formContainermodel.content})
 
 	if form.is_valid():
 		obj = form.save(commit = False)
 		messages.add_message(request,messages.SUCCESS,'job information Updated!')
 		obj.save()
 		updated_slug = obj.company_name
-		return redirect(reverse('jobs:detail',args=(slugify(obj.company_name),)))
-	context = {'form':form,'jobs_model':jobs_model}
+		return JsonResponse({'status':'success'},safe=False)
+		# return redirect(reverse('jobs:detail',args=(slugify(obj.company_name),)))
+	
+	if request.method == 'POST':
+		formContainermodel.title = request.POST.get('title')
+		formContainermodel.content = request.POST.get('content')
+		formContainermodel.save()
+		print('saved')
+		return redirect(reverse("jobs:detail",args=(jobs_model.slug,)))
+			# formContainermodel.title = customformcontainer.cleaned_dadta['title']
+			# formContainermodel.content = customformcontainer.cleaned_data['content']
+			# print(formContainermodel.title)
+			# print(formContainermodel.content)
+			# # formContainermodel.save()
+			# return JsonResponse({'status':'success'},safe=False)
+		
+	context = {
+		'form':form,
+		'jobs_model':jobs_model,
+		'customformcontainer':customformcontainer,
+		'formContainermodel':formContainermodel
+		}
 	return render(request,'updatejob.html',context)
 
 # @login_required
 def jobDetail(request,slug):
 	job_detail = CreateJob.objects.get(slug = slug)
-	context = {'job_detail':job_detail}
+	modl = CreateJob.objects.all()
+	formcontainer = FormContainer.objects.filter(createjob=job_detail.id)
+
+	context = {
+		'job_detail':job_detail,
+		'formcontainer':formcontainer,
+	}
 	return render(request,'j_detail.html',context)
 
 @login_required

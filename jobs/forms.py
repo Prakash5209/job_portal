@@ -1,6 +1,7 @@
 from django import forms
+from ckeditor.widgets import CKEditorWidget
 
-from jobs.models import CreateJob,Create_topic,Topic_field,Create_topic
+from jobs.models import CreateJob,FormContainer
 
 class CreateJobForm(forms.ModelForm):
 	class Meta:
@@ -15,33 +16,19 @@ class CreateJobForm(forms.ModelForm):
 			self.fields[field].widget.attrs.update({'class':'form-control'})
 
 
-class Create_topic_Form(forms.ModelForm):
+class FormContainerForm(forms.ModelForm):
 	class Meta:
-		model = Create_topic
+		model = FormContainer
 		fields = '__all__'
-
-	def __init__(self,*args,**kwargs):
-		super().__init__(*args,**kwargs)
-
-		for field in self.fields:
-			self.fields[field].widget.attrs.update({'class':'form-control'})
-
-	
-
-# class Select_title_Form(forms.Form):
-# 	title = forms.ModelChoiceField(queryset=Create_topic.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
-
-class Select_title_field_Form(forms.Form):
-	fields = forms.CharField(max_length=255,widget=forms.TextInput(attrs={'class':'form-control'}))
+		# exclude = ['createjob']
+		widgets = {
+			'title':forms.TextInput(attrs={'class':'form-control'}),
+			'content':CKEditorWidget(),
+		}
 
 
-# class Topic_field_Form(forms.ModelForm):
-# 	class Meta:
-# 		model = Topic_field
-# 		fields = '__all__'
+class CustomFormContainer(forms.Form):
+	title = forms.CharField()
+	content = forms.CharField(widget=CKEditorWidget())
 
-# 	def __init__(self,*args,**kwargs):
-# 		super().__init__(*args,**kwargs)
-
-# 		for field in self.fields:
-# 			self.fields[field].widget.attrs.update({'class':'form-control'})
+	title.widget.attrs.update({'class':'form-control'})

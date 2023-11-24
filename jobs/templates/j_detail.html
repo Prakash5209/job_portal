@@ -13,7 +13,7 @@
 		{% else %}
 			<img src="https://imgs.search.brave.com/sxd13nVihYQN1LwLCDFG79slkCnOOBeGe0Uu_xRtGfU/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9maWxl/cy5yZWFscHl0aG9u/LmNvbS9tZWRpYS9D/dXN0b21pemluZy10/aGUtRGphbmdvLUFk/bWluX1dhdGVybWFy/a2VkLjkzYTYxODgw/ZDE1NS5qcGc" style="width:600px;height:300px;border-radius:10px;" alt="img">
 		{% endif %}
-
+    <br><br>
 		<p>{{job_detail.company_name}}</p>
 		<p>{{job_detail.job_title}}</p>
 		<p>{{job_detail.phone}}</p>
@@ -24,9 +24,9 @@
     <p>{{job_detail.requirements}}</p>
 		<p>{{job_detail.user}}</p>
     <hr>
-    {% for j in modl %}
-      <h3>{{j.name}}</h3>
-      <p>{{j.description}}</p>
+    {% for i in formcontainer %}
+      <h4>{{i.title}}</h4>
+      <p>{{i.content|safe}}</p>
     {% endfor %}
 		
 		
@@ -41,21 +41,6 @@
 </div>
 
 
-
-
-
-<!-- starting bootstrap modal for deletion :"https://getbootstrap.com/docs/5.3/components/modal/#live-demo" -->
-
-<!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button> -->
-
-
-<!-- starting bootstrap toasts  -->
-<!-- <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>    -->
-
-<!-- starting bootstrap toasts triggering through js -->
 {% if messages %}
     {% for message in messages %}
     <div class="toast-container top-0 end-0 translate-middle-x p-3">
