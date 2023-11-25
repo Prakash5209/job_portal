@@ -34,21 +34,8 @@ class CreateJob(TimeStampModel):
 	def save(self,*args,**kwargs):
 		self.slug = slugify(self.company_name)
 		super().save(*args,**kwargs)
+		
 		# About_more_job_info.objects.create(createjob = self)
-
-# class Create_topic(models.Model):
-# 	createjob = models.ForeignKey(CreateJob,on_delete=models.CASCADE)
-# 	title = models.CharField(max_length=255)
-
-# 	def __str__(self):
-# 		return self.title
-	
-# class Topic_field(models.Model):
-# 	choose_topic = models.ForeignKey(Create_topic,on_delete=models.CASCADE)
-# 	field = models.CharField(max_length=255)
-
-# 	def __str__(self):
-# 		return f"{self.choose_topic}-{self.field}"
 
 class FormContainer(models.Model):
 	createjob = models.ForeignKey(CreateJob,on_delete=models.CASCADE)

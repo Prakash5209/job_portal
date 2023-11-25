@@ -104,7 +104,7 @@ def updatejob(request,slug):
 
 # @login_required
 def jobDetail(request,slug):
-	job_detail = CreateJob.objects.get(slug = slug)
+	job_detail = CreateJob.objects.get(slug = slug or slug.id)
 	modl = CreateJob.objects.all()
 	formcontainer = FormContainer.objects.filter(createjob=job_detail.id)
 
