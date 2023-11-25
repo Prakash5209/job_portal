@@ -90,7 +90,7 @@ def updatejob(request,slug):
 			# formContainermodel.title = customformcontainer.cleaned_dadta['title']
 			# formContainermodel.content = customformcontainer.cleaned_data['content']
 			# print(formContainermodel.title)
-			# print(formContainermodel.content)
+			# print(formContainermodel.content)	
 			# # formContainermodel.save()
 			# return JsonResponse({'status':'success'},safe=False)
 		

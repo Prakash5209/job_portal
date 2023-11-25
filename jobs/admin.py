@@ -18,7 +18,7 @@ class ContactusImageMapAdmin(admin.ModelAdmin):
 class FormContainerModelAdmin(admin.ModelAdmin):
 	form = FormContainerForm
 
-@admin.register(FormContainer,FormContainerModelAdmin)
-class FormContainer(admin.ModelAdmin):
-	list_display = ('createjob','title','content',)
-	search_fields = ('createjob','title','content',)
+# @admin.register(FormContainer,FormContainerModelAdmin)
+# class FormContainer(admin.ModelAdmin):
+# 	list_display = ('createjob','title','content',)
+# 	search_fields = ('createjob','title','content',)
