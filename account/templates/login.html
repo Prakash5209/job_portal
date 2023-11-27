@@ -30,7 +30,7 @@
 			    <input type="password" class="form-control" name="password">
 			  </div>
 			  <button type="submit" class="btn btn-primary">Login</button><br>
-			  <a href="#">forgot password?</a><br>
+			  <a href="{% url 'account:userlogin' %}">forgot password?</a><br>
 			  <p>don't have account, let's dive in <a href="{% url 'account:usersignup' %}">Register</a></p>
 			</form>
 		</div>

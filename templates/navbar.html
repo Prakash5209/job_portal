@@ -28,7 +28,7 @@
                 </li>
                 {% endif %}
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{% url 'account:profile' request.user %}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'account:profile' request.user.id %}">Profile</a></li>
                     {% if request.user.is_authenticated %}
                     {% else %}
                     <li><a class="dropdown-item" href="#">Login</a></li>
@@ -37,12 +37,7 @@
                 </ul>
             </li>
 
-
-           <!--  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{request.user}}</a>
-            <ul class="dropdown-menu">
-                <a class="dropdown-item" href="{% url 'account:profile' request.user %}">Profile</a>
-                <a class="dropdown-item" href="{% url 'account:userlogout' %}">Logout</a>
-            </ul>   -->      
+   
             {% else %}
                 <a href="{% url 'account:userlogin' %}" class="nav-item nav-link">Login</a>
                 <a href="{% url 'account:usersignup' %}" class="nav-item nav-link">Register</a>

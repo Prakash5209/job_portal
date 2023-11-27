@@ -1,12 +1,12 @@
 from django.shortcuts import render,redirect,get_object_or_404,reverse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 
-from account.forms import AuthForm,UserForm,ProfileForm
+from account.forms import AuthForm,UserForm,ProfileForm,Reset_password_Form
 from account.models import Profile
 
 User = get_user_model()
-
 
 def userlogin(request):
 	form = AuthForm(request.POST or None)
@@ -37,11 +37,11 @@ def userlogout(request):
 	return redirect(reverse("jobs:home"))
 
 
-def profile_view(request,username):
-    user = get_object_or_404(User,username=username)
+def profile_view(request,username_id):
+    user = get_object_or_404(User,id = username_id)
     profile = get_object_or_404(Profile)
     form = None
-    if request.user.is_authenticated and request.user.username == username:
+    if request.user.is_authenticated and request.user.id == username_id:
         user = request.user
         initial_data = {
             'first_name':user.first_name,
@@ -65,4 +65,28 @@ def profile_update_view(request):
         return redirect(reverse("account:profile",args=(request.user.username,)))
     context = {'form':form,'profile_model':profile_model}
     return render(request,"profile.html",context)
+
+
+def reset_password(request):
+	form = Reset_password_Form(request.POST or None)
+	if request.method == 'POST':
+		username1 = request.POST.get('username')
+		password1 = request.POST.get('password1')
+		password2 = request.POST.get('password2')
+		print(username1,password1,password2)
+		# user = User.objects.get(username = username1)
+		user = get_object_or_404(User,username = username1)
+
+		if user.username == request.user.username:
+			if password1 == password1:
+				user.set_password(password2)
+				user.save()
+				messages.add_message(request,messages.SUCCESS,'password updated')
+				return redirect(reverse("account:userlogin"))
+			else:
+				print('password didn\'t match')
+		else:
+			print('username didn\nt match')
+	context = {'form':form}
+	return render(request,'reset_password.html',context)
 

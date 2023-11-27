@@ -87,13 +87,7 @@ def updatejob(request,slug):
 		formContainermodel.save()
 		print('saved')
 		return redirect(reverse("jobs:detail",args=(jobs_model.slug,)))
-			# formContainermodel.title = customformcontainer.cleaned_dadta['title']
-			# formContainermodel.content = customformcontainer.cleaned_data['content']
-			# print(formContainermodel.title)
-			# print(formContainermodel.content)	
-			# # formContainermodel.save()
-			# return JsonResponse({'status':'success'},safe=False)
-		
+
 	context = {
 		'form':form,
 		'jobs_model':jobs_model,

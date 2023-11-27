@@ -9,18 +9,6 @@
                 <a class="btn btn-light" href="{% url 'jobs:createjob' %}">Create jobs</a>
             </div>
             <div class="col col-md-10">
-                  
-                <!-- <div class="input-group mb-3"> 
-                    <form method="post" action="{% url 'jobs:search_feature' %}">
-                        {% csrf_token %}
-                        <input placeholder="search jobs" 
-                        type="text" class="form-control" 
-                        aria-label="Sizing example input" 
-                        aria-describedby="inputGroup-sizing-default"
-                        name="search_query">
-                        <button class="btn btn-primary" type="submit">search</button>
-                    </form>
-                </div> -->
 
                 <form method="post" class="row row-cols-lg-auto g-2 align-items-center" action="{% url 'jobs:search_feature' %}">
                     {% csrf_token %}
