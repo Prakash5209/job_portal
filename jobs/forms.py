@@ -14,6 +14,8 @@ class CreateJobForm(forms.ModelForm):
 
 		for field in self.fields:
 			self.fields[field].widget.attrs.update({'class':'form-control'})
+			if field == 'due_date':
+				self.fields[field].widget.attrs.update({'placeholder':'y-m-d'})
 
 
 class FormContainerForm(forms.ModelForm):
