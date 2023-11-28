@@ -143,4 +143,3 @@ def aboutus(request):
 		'third_para':third_para,
 	}
 	return render(request,'aboutus.html',context)
-
