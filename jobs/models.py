@@ -11,6 +11,9 @@ class TimeStampModel(models.Model):
 	created_at = models.DateTimeField(auto_now_add = True)
 	modified_at = models.DateTimeField(auto_now = True)
 
+	# created_at = models.DateField(auto_now_add = True)
+	# modified_at = models.DateField(auto_now = True)
+
 	class Meta:
 		ordering = ['-modified_at','-created_at']
 		abstract = True
@@ -28,6 +31,7 @@ class CreateJob(TimeStampModel):
 	slug = models.SlugField(blank=True,null=True)
 
 	job_title = models.CharField(max_length=255)
+	due_date = models.DateField(null=True)
 	def __str__(self):
 		return self.company_name
 	
