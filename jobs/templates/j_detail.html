@@ -23,15 +23,23 @@
     <!-- <small>created : {{job_detail.created_at}}</small>
     <small>due date : {{job_detail.due_date}}</small><br><br> -->
     <pre><small>created: {{job_detail.created_at|date}}</small>                     <small>due_date: {{job_detail.due_date}}</small></pre>
-		<p>{{job_detail.company_name}}</p>
-		<p>{{job_detail.job_title}}</p>
-		<p>{{job_detail.phone}}</p>
+    {% if job_detail.due_date > date %}
+      <p style="color: #42FF00;">Job is Available </p>
+    {% else %}
+      {% if job_detail.due_date < date %}
+        <p style="color: red;">Job is UnAvailable </p>
+      {% else %}
+        <p style="color: #0083FF;">Available </p>
+      {% endif %}
+    {% endif %}
+		<!-- <p style="color: red;">{% if job_detail.due_date > date %}Job is Available{% else %}Job is Unavaliable {% endif %}</p> -->
+		<h4>{{job_detail.company_name}}</h4>
+		<p><strong>{{job_detail.job_title}}</strong></p>
+		<!-- <p>{{job_detail.phone}}</p> -->
+		<p><a href="https://{{ job_detail.website }}/">{{job_detail.website}}</a></p>
 		<p>{{job_detail.address}}</p>
-		<p>{{job_detail.website}}</p>
-		<p>{{job_detail.email}}</p>
-		<p>{{job_detail.company_description}}</p>
-    <p>{{job_detail.requirements}}</p>
-		<p>{{job_detail.user}}</p>
+		<!-- <p>{{job_detail.email}}</p> -->
+		<p><i>{{job_detail.company_name}}</i><br> {{job_detail.company_description}}</p>
     <hr>
     {% for i in formcontainer %}
       <h4>{{i.title}}</h4>

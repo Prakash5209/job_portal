@@ -2,10 +2,10 @@ from django.shortcuts import render,redirect,get_object_or_404,reverse
 from django.http import JsonResponse,HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.utils.text import slugify
+# from django.utils.text import slugify
 from django.contrib import messages
-from django.forms import formset_factory
-import json
+import datetime
+# import json
 
 from jobs.forms import CreateJobForm,FormContainerForm,CustomFormContainer
 from jobs.models import CreateJob,ContactusImageMap,FormContainer
@@ -100,6 +100,7 @@ def jobDetail(request,slug):
 	context = {
 		'job_detail':job_detail,
 		'formcontainer':formcontainer,
+		'date':datetime.date.today(),
 	}
 	return render(request,'j_detail.html',context)
 
