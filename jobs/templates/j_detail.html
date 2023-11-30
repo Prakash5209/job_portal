@@ -52,11 +52,15 @@
 		<!-- 	<a href="{% url 'jobs:jobdelete' job_detail.slug %}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">remove</a> -->
 		<a href="#" class="btn btn-primary" data-slug="{{job_detail.slug}}" data-bs-toggle="modal" data-bs-target="#exampleModal">remove</a>
 		{% endif %}
+
 	</div>
 	<div class="col-4 border">
 	</div>
 </div>
-
+<br>
+<div class="row p-3">
+  <p>Apply   <i class="fa-solid fa-arrow-right"></i>  send your cv <a href="https://{{job_detail.website}}/">{{job_detail.email}}</a></p>
+</div>
 
 {% if messages %}
     {% for message in messages %}
@@ -88,10 +92,6 @@
 <!-- ending bootstrap toasts triggering through js -->
 
 <!-- ending bootstrap toasts  -->
-
-
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
