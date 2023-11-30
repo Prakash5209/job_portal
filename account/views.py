@@ -62,7 +62,7 @@ def profile_update_view(request):
         user.email = form.cleaned_data.get("email")
         user.save()
         form.save()		
-        return redirect(reverse("account:profile",args=(request.user.username,)))
+        return redirect(reverse("account:profile",args=(request.user.id,)))
     context = {'form':form,'profile_model':profile_model}
     return render(request,"profile.html",context)
 
