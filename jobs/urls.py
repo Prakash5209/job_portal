@@ -8,10 +8,10 @@ urlpatterns = [
 	path('createjob/',createjob,name="createjob"),
 
 
-	path('detail/<slug:slug>/',jobDetail,name="detail"),
-    path('jobdelete/<slug:slug>/',jobDelete,name="jobdelete"),
+	path('detail/<int:id>/',jobDetail,name="detail"),
+    path('jobdelete/<int:id>/',jobDelete,name="jobdelete"),
     path('search/',search_feature,name="search_feature"),
-    path('update-job/<slug:slug>/',updatejob,name="updatejob"),
+    path('update-job/<int:id>/',updatejob,name="updatejob"),
     
     
     path('contact-us/',contactus,name="contactus"),

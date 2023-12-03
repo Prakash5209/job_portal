@@ -29,6 +29,7 @@ def createjob(request):
 	modl = CreateJob.objects.all()
 	# formset = formset_fac(request.POST or None,prefix = 'items')
 
+
 	createjob_max_id = max([i.id for i in modl])
 
 	createjob_model = CreateJob.objects.all()
@@ -59,8 +60,8 @@ def createjob(request):
 		}
 	return render(request,'cj_form.html',context)
 
-def updatejob(request,slug):
-	jobs_model = get_object_or_404(CreateJob,slug=slug,user = request.user)
+def updatejob(request,id):
+	jobs_model = get_object_or_404(CreateJob,id = id,user = request.user)
 	form = CreateJobForm(request.POST or None,request.FILES or None,instance=jobs_model)
 
 	formContainermodel = FormContainer.objects.get(createjob = jobs_model.id)
@@ -81,7 +82,7 @@ def updatejob(request,slug):
 		formContainermodel.content = request.POST.get('content')
 		formContainermodel.save()
 		print('saved')
-		return redirect(reverse("jobs:detail",args=(jobs_model.slug,)))
+		return redirect(reverse("jobs:detail",args=(jobs_model.id,)))
 
 	context = {
 		'form':form,
@@ -92,8 +93,8 @@ def updatejob(request,slug):
 	return render(request,'updatejob.html',context)
 
 # @login_required
-def jobDetail(request,slug):
-	job_detail = CreateJob.objects.get(slug = slug or slug.id)
+def jobDetail(request,id):
+	job_detail = CreateJob.objects.get(id = id)
 	modl = CreateJob.objects.all()
 	formcontainer = FormContainer.objects.filter(createjob=job_detail.id)
 
@@ -105,10 +106,10 @@ def jobDetail(request,slug):
 	return render(request,'j_detail.html',context)
 
 @login_required
-def jobDelete(request,slug):
-	slug = request.POST.get('slug')
-	print(f"my slug==================={slug}")
-	post = get_object_or_404(CreateJob,slug = slug,user = request.user)
+def jobDelete(request,id):
+	# slug = request.POST.get('slug')
+	# print(f"my slug==================={slug}")
+	post = get_object_or_404(CreateJob,id = id,user = request.user)
 	post.delete()
 	messages.add_message(request,messages.SUCCESS,'post deleted')
 	return redirect(reverse('jobs:home'))

@@ -14,7 +14,7 @@
                 {{ form.as_p }}
                 <button type="submit" class="btn btn-primary" value="submit" id="update_button">save</button>
                 {% if jobs_model.user == request.user %}
-                    <a href="{% url 'jobs:detail' jobs_model.slug %}" class="btn btn-primary">cancel</a>
+                    <a href="{% url 'jobs:detail' jobs_model.id %}" class="btn btn-primary">cancel</a>
                 {% endif %}
                 
             </form>  
@@ -44,7 +44,7 @@
         console.log(e);
 
         const formData = new FormData(document.getElementById('update_company_intro'))
-        fetch('{% url "jobs:updatejob" jobs_model.slug %}',{
+        fetch('{% url "jobs:updatejob" jobs_model.id %}',{
             method:'POST',
             body: formData,
         })
@@ -58,27 +58,6 @@
         })
     }
 
-    // document.getElementById('form_container_save').addEventListener('click',form_container_update_button_function);
-    // function form_container_update_button_function(e){
-    //     if(e){
-    //         e.preventDefault();
-    //     }
-    //     console.log(e);
-
-    //     const formData = new FormData(document.getElementById('form_container_html_form'))
-    //     fetch('{% url "jobs:updatejob" jobs_model.slug %}',{
-    //         method:'POST',
-    //         body: formData,
-    //     })
-    //     .then(response => response.json())
-    //     .then(status =>{
-    //         alert('done')
-    //         console.log(status);
-    //     })
-    //     .catch(error =>{
-    //         console.log(error);
-    //     })
-    // }
 
 </script>
 

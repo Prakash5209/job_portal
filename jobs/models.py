@@ -31,7 +31,7 @@ class CreateJob(TimeStampModel):
 	slug = models.SlugField(blank=True,null=True)
 
 	job_title = models.CharField(max_length=255)
-	due_date = models.DateField(null=True)
+	due_date = models.DateField(null=True,blank=True)
 	def __str__(self):
 		return self.company_name
 	

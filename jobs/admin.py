@@ -14,7 +14,7 @@ class CreateJobAdmin(admin.ModelAdmin):
 class ContactusImageMapAdmin(admin.ModelAdmin):
 	list_display = ("image",)
 
-
+@admin.register(FormContainer)
 class FormContainerModelAdmin(admin.ModelAdmin):
 	form = FormContainerForm
 

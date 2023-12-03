@@ -7,6 +7,7 @@
     .card:hover{
         box-shadow: 0 0 15px 2px #818181;
     }
+
 </style>
 
 <div class="jumbotron p-4">
@@ -56,10 +57,10 @@
                                 {% endif %}
                             </div>
                             <div class="col-10">
-                                <a href="{% url 'jobs:detail' search.slug %}" class="card-title">
+                                <a href="{% url 'jobs:detail' search.id %}" class="card-title">
                                     {{ search.job_title }}</a>
                                 <p class="card-text">{{ search.company_name }}</p>
-                                <a href="{% url 'jobs:detail' search.slug %}">see more detail</a>
+                                <a href="{% url 'jobs:detail' search.id %}">see more detail</a>
                             </div>
                         </div>
                     </div><br>
@@ -85,10 +86,10 @@
                     {% endif %}
                 </div>
                 <div class="col-10">
-                    <a href="detail/{{job.slug}}" class="card-title">
+                    <a href="detail/{{job.id}}" class="card-title">
                     {{ job.job_title }}</a>
                     <p class="card-text">{{ job.company_name }}</p>
-                    <a href="detail/{{job.slug}}">see more detail</a>
+                    <a href="detail/{{job.id}}">see more detail</a>
                 </div>
             </div>
         </div><br>
