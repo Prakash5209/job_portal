@@ -37,35 +37,28 @@ def userlogout(request):
 	return redirect(reverse("jobs:home"))
 
 
-def profile_view(request,username_id):
-    user = get_object_or_404(User,id = username_id)
-    profile = get_object_or_404(Profile)
-    form = None
-    if request.user.is_authenticated and request.user.id == username_id:
-        user = request.user
-        initial_data = {
-            'first_name':user.first_name,
-            'last_name':user.last_name,
-            'email':user.email,
-            }
-        form = ProfileForm(instance=user.profile,initial=initial_data)
-    context = {'user':user,'form':form,'profile':profile}
-    return render(request,'profile.html',context)
+def profile_view(request,pk):
+	user = get_object_or_404(User,id = pk)
+	profile = get_object_or_404(Profile,user = user)
+	pro = Profile.objects.all()
+	initial_data = {
+		'first_name':user.first_name,
+		'last_name':user.last_name,
+		'email':user.email,
+	}
+	form = ProfileForm(request.POST or None,request.FILES or None, instance=profile,initial = initial_data)
 
-def profile_update_view(request):
-    form = ProfileForm(request.POST or None, request.FILES or None,instance=request.user.profile)
-    profile_model = get_object_or_404(Profile)
-    if form.is_valid():
-        user = request.user
-        user.first_name = form.cleaned_data.get("first_name")
-        user.last_name = form.cleaned_data.get("last_name")
-        user.email = form.cleaned_data.get("email")
-        user.save()
-        form.save()		
-        return redirect(reverse("account:profile",args=(request.user.id,)))
-    context = {'form':form,'profile_model':profile_model}
-    return render(request,"profile.html",context)
-
+	if form.is_valid():
+		user = request.user
+		user.first_name = form.cleaned_data['first_name']
+		user.last_name = form.cleaned_data['last_name']
+		user.email = form.cleaned_data['email']
+		user.save()
+		form.save()
+		return redirect('jobs:home')
+	context = {'user':user,'form':form,'profile':profile,'pro':pro}
+	return render(request,'profile.html',context)
+	
 
 def reset_password(request):
 	form = Reset_password_Form(request.POST or None)

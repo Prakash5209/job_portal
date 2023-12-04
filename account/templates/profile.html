@@ -11,13 +11,11 @@
 {% if form %}
 <div>
     <div>
-        {% if profile_model %}
-        {% for pro in profile_model %}
-            <img src="{{ pro.image.url }}">
-        {% endfor %}
+        {% if profile.avatar %}
+            <img src="{{profile.avatar.url}}" alt="">
         {% endif %}
     </div>
-    <form method="post" action="{% url 'account:profile_update' %}" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Submit" name="submit" class="btn btn-info"/>
