@@ -24,8 +24,10 @@
 		<div>
 			<form method="post" id="form-container">
 				{% csrf_token %}
-				{{ second_form.as_p }}
-				<input type="submit" value="submit" class="btn btn-primary" id="form_container_save">
+				<div class="group_form_with_container">
+					{{ second_form.as_p }}
+					<input type="submit" value="submit" class="btn btn-primary" id="form_container_save">
+				</div>
 			</form>
 			{{ second_form.media }}
 		</div>
@@ -57,9 +59,22 @@
 		})
 		.then(response => response.json())
 		.then(status =>{
+			var group_form_with_container = document.querySelector('.group_form_with_container')
 			bul = true
 			alert('saved');
-			console.log(status)
+			var new_element = document.createElement('input');
+			new_element.setAttribute('name','create_job_name');
+			new_element.setAttribute('type','text');
+			new_element.setAttribute('value',status.id);
+			group_form_with_container.append(new_element);
+			console.log(status.id)
+			
+			// for(let x in status){
+			// 	var new_element = document.createElement('input')
+			// 	new_element.setAttribute('type','text');
+			// 	new_element.setAttribute('value','')
+			// 	console.log(status[x]);
+			// }
 		})
 		.catch(error =>{
 			console.log(error);

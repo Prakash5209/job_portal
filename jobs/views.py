@@ -29,34 +29,29 @@ def createjob(request):
 	modl = CreateJob.objects.all()
 	# formset = formset_fac(request.POST or None,prefix = 'items')
 
-
-	createjob_max_id = max([i.id for i in modl])
-
-	createjob_model = CreateJob.objects.all()
-
 	if form.is_valid():
+
 		obj = form.save(commit = False)
 		obj.user = request.user
 		obj.save()
-		print(obj.id)
 		messages.add_message(request,messages.SUCCESS,'Job Created!')
-		return JsonResponse({'status':'success'},safe=False)
-	
+		status = {'id':f'{obj.id}','name':f'{obj.company_name}'}
+
+		return JsonResponse(status,safe=False)
+
 	if request.method == 'POST':
 		name = request.POST.get('title')
 		content = request.POST.get('content')
+		heading_id = request.POST.get('create_job_name')
+		print(type(heading_id))
 		for i in modl:
-			if i.id == createjob_max_id:
-				FormContainer(createjob=i,title=name,content=content).save()
+			if i.id == int(heading_id):	
+				FormContainer(createjob= i,title = name,content = content).save()
 				print('saved')
-				return redirect('jobs:home')
-				# return JsonResponse({'status':'success'},safe=False)
-
-
+				return redirect(reverse('jobs:detail',args=(CreateJob.objects.get(id=i.id).id,)))
 	context = {
 		'form':form,
 		'second_form':second_form,
-		'createjob_model':createjob_model,
 		}
 	return render(request,'cj_form.html',context)
 
