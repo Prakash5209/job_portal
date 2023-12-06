@@ -60,8 +60,6 @@ def updatejob(request,id):
 	form = CreateJobForm(request.POST or None,request.FILES or None,instance=jobs_model)
 
 	formContainermodel = FormContainer.objects.get(createjob = jobs_model.id)
-	print('choosen one',formContainermodel.id)
-
 	customformcontainer = CustomFormContainer(initial={'title':formContainermodel.title,'content':formContainermodel.content})
 
 	if form.is_valid():
