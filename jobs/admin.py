@@ -5,7 +5,7 @@ from jobs.models import CreateJob,ContactusImageMap,FormContainer
 
 @admin.register(CreateJob)
 class CreateJobAdmin(admin.ModelAdmin):
-	list_display = ('company_name','address','website','nationality',)
+	list_display = ('company_name','user','website','nationality',)
 	search_fields = ("company_name",'address','website','nationality',)
 	prepopulated_fields = {"slug":("company_name",)}
 

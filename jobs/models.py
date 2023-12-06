@@ -11,9 +11,6 @@ class TimeStampModel(models.Model):
 	created_at = models.DateTimeField(auto_now_add = True)
 	modified_at = models.DateTimeField(auto_now = True)
 
-	# created_at = models.DateField(auto_now_add = True)
-	# modified_at = models.DateField(auto_now = True)
-
 	class Meta:
 		ordering = ['-modified_at','-created_at']
 		abstract = True

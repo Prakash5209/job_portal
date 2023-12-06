@@ -22,6 +22,13 @@
         <input type="submit" value="Submit" name="submit" class="btn btn-info"/>
         <a href="{% url 'account:reset_password' %}" class="btn btn-info">reset password</a>
     </form>
+    <br>
+    <div class="list-group">
+        <h3 class="disabled text-center border">Created jobs</h3>
+        {% for i in create_jobs %}
+            <li class="list-group-item list-group-item-secondary list-group-item-action justify-content-between d-flex"><p><b>{{i.job_title}}</b> -{{i.company_name}}</p> <a href="{% url 'jobs:detail' i.id %}">see more</a></li>
+        {% endfor %}
+    </div>
 </div>
 {% endif %}
 {% endblock content %}

@@ -5,6 +5,7 @@ from django.contrib import messages
 
 from account.forms import AuthForm,UserForm,ProfileForm,Reset_password_Form
 from account.models import Profile
+from jobs.models import CreateJob
 
 User = get_user_model()
 
@@ -41,6 +42,7 @@ def profile_view(request,pk):
 	user = get_object_or_404(User,id = pk)
 	profile = get_object_or_404(Profile,user = user)
 	pro = Profile.objects.all()
+	create_jobs = CreateJob.objects.filter(user = pk)
 	initial_data = {
 		'first_name':user.first_name,
 		'last_name':user.last_name,
@@ -56,7 +58,13 @@ def profile_view(request,pk):
 		user.save()
 		form.save()
 		return redirect('jobs:home')
-	context = {'user':user,'form':form,'profile':profile,'pro':pro}
+	context = {
+			'user':user,
+			'form':form,
+			'profile':profile,
+			'pro':pro,
+			'create_jobs':create_jobs,
+		}
 	return render(request,'profile.html',context)
 	
 
