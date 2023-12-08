@@ -18,17 +18,17 @@
 			<form method="post" enctype="multipart/form-data" id="company-form">
 				{% csrf_token %}
 				{{ form.as_p }}
+				{{ second_form.as_p }}
 				<input type="submit" class="btn btn-primary" value="save" id="create_job_save">
 			</form>
 		</div><hr>
 		<div>
-			<form method="post" id="form-container">
+			<!-- <form method="post" id="form-container">
 				{% csrf_token %}
 				<div class="group_form_with_container">
-					{{ second_form.as_p }}
 					<input type="submit" value="submit" class="btn btn-primary" id="form_container_save">
 				</div>
-			</form>
+			</form> -->
 			{{ second_form.media }}
 		</div>
     </div>
@@ -44,42 +44,36 @@
 		height:500,
 	});
 
-	var bul = false
+	// var bul = false
 
-	document.getElementById('create_job_save').addEventListener('click',create_job_save_function);
-	function create_job_save_function(e){
-		if(e){
-			e.preventDefault();
-		}
-		const formData = new FormData(document.getElementById('company-form'));
+	// document.getElementById('create_job_save').addEventListener('click',create_job_save_function);
+	// function create_job_save_function(e){
+	// 	if(e){
+	// 		e.preventDefault();
+	// 	}
+	// 	const formData = new FormData(document.getElementById('company-form'));
 
-		fetch('{% url "jobs:createjob" %}',{
-			method:'POST',
-			body:formData,
-		})
-		.then(response => response.json())
-		.then(status =>{
-			var group_form_with_container = document.querySelector('.group_form_with_container')
-			bul = true
-			alert('saved');
-			var new_element = document.createElement('input');
-			new_element.setAttribute('name','create_job_name');
-			new_element.setAttribute('type','text');
-			new_element.setAttribute('value',status.id);
-			group_form_with_container.append(new_element);
-			console.log(status.id)
-			
-			// for(let x in status){
-			// 	var new_element = document.createElement('input')
-			// 	new_element.setAttribute('type','text');
-			// 	new_element.setAttribute('value','')
-			// 	console.log(status[x]);
-			// }
-		})
-		.catch(error =>{
-			console.log(error);
-		})
-	}
+	// 	fetch('{% url "jobs:createjob" %}',{
+	// 		method:'POST',
+	// 		body:formData,
+	// 	})
+	// 	.then(response => response.json())
+	// 	.then(status =>{
+	// 		var group_form_with_container = document.querySelector('.group_form_with_container')
+	// 		bul = true
+	// 		alert('saved');
+	// 		var new_element = document.createElement('input');
+	// 		new_element.setAttribute('name','create_job_name');
+	// 		new_element.setAttribute('type','text');
+	// 		new_element.setAttribute('value',status.id);
+	// 		group_form_with_container.append(new_element);
+	// 		console.log(status.id)
+
+	// 	})
+	// 	.catch(error =>{
+	// 		console.log(error);
+	// 	})
+	// }
 	// console.log(`------${bul}`)
 	// document.getElementById('form_container_save').addEventListener('click',form_container_save_function);
 	// function form_container_save_function(e){

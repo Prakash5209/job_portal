@@ -40,9 +40,9 @@ class CreateJob(TimeStampModel):
 
 class FormContainer(models.Model):
 	createjob = models.ForeignKey(CreateJob,on_delete=models.CASCADE)
-	title = models.CharField(max_length=255)
+	title = models.CharField(max_length=255,default="jobs descriptions")
 	# content = RichTextField(blank=True,null=True)
-	content = models.TextField()
+	content = models.TextField(default="jobs requirements")
 
 	def __str__(self):
 		return self.title

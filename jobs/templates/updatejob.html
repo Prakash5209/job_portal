@@ -12,6 +12,8 @@
             <form method="POST" enctype="multipart/form-data" id="update_company_intro">
                 {% csrf_token %}
                 {{ form.as_p }}
+                <hr>
+                {{ customformcontainer.as_p }}
                 <button type="submit" class="btn btn-primary" value="submit" id="update_button">save</button>
                 {% if jobs_model.user == request.user %}
                     <a href="{% url 'jobs:detail' jobs_model.id %}" class="btn btn-primary">cancel</a>
@@ -19,11 +21,11 @@
                 
             </form>  
             <hr>
-            <form method="post" id="form_container_html_form">
+            <!-- <form method="post" id="form_container_html_form">
                 {% csrf_token %}
-                {{ customformcontainer.as_p }}
-                <input type="submit" value="submit" class="btn btn-primary" id="form_container_save">
-            </form>  
+                
+                    <input type="submit" value="submit" class="btn btn-primary" id="form_container_save"> 
+            </form>-->
             {{ customformcontainer.media }}
         </div>
     </div>
@@ -36,27 +38,27 @@
         height:500,
     });
 
-    document.getElementById('update_button').addEventListener('click',update_button_function);
-    function update_button_function(e){
-        if(e){
-            e.preventDefault();
-        }
-        console.log(e);
+    // document.getElementById('update_button').addEventListener('click',update_button_function);
+    // function update_button_function(e){
+    //     if(e){
+    //         e.preventDefault();
+    //     }
+    //     console.log(e);
 
-        const formData = new FormData(document.getElementById('update_company_intro'))
-        fetch('{% url "jobs:updatejob" jobs_model.id %}',{
-            method:'POST',
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(status =>{
-            alert('done')
-            console.log(status);
-        })
-        .catch(error =>{
-            console.log(error);
-        })
-    }
+    //     const formData = new FormData(document.getElementById('update_company_intro'))
+    //     fetch('{% url "jobs:updatejob" jobs_model.id %}',{
+    //         method:'POST',
+    //         body: formData,
+    //     })
+    //     .then(response => response.json())
+    //     .then(status =>{
+    //         alert('done')
+    //         console.log(status);
+    //     })
+    //     .catch(error =>{
+    //         console.log(error);
+    //     })
+    // }
 
 
 </script>

@@ -29,26 +29,39 @@ def createjob(request):
 	modl = CreateJob.objects.all()
 	# formset = formset_fac(request.POST or None,prefix = 'items')
 
-	if form.is_valid():
+	# if form.is_valid():
 
+	# 	obj = form.save(commit = False)
+	# 	obj.user = request.user
+	# 	obj.save()
+	# 	messages.add_message(request,messages.SUCCESS,'Job Created!')
+	# 	status = {'id':f'{obj.id}','name':f'{obj.company_name}'}
+
+	# 	return JsonResponse(status,safe=False)
+
+	# if request.method == 'POST':
+	# 	name = request.POST.get('title')
+	# 	content = request.POST.get('content')
+	# 	heading_id = request.POST.get('create_job_name')
+	# 	print(type(heading_id))
+	# 	for i in modl:
+	# 		if i.id == int(heading_id):	
+	# 			FormContainer(createjob= i,title = name,content = content).save()
+	# 			print('saved')
+	# 			return redirect(reverse('jobs:detail',args=(CreateJob.objects.get(id=i.id).id,)))
+
+	if form.is_valid() and request.method == 'POST':
 		obj = form.save(commit = False)
 		obj.user = request.user
 		obj.save()
-		messages.add_message(request,messages.SUCCESS,'Job Created!')
-		status = {'id':f'{obj.id}','name':f'{obj.company_name}'}
 
-		return JsonResponse(status,safe=False)
+		print(obj.id)
 
-	if request.method == 'POST':
-		name = request.POST.get('title')
-		content = request.POST.get('content')
-		heading_id = request.POST.get('create_job_name')
-		print(type(heading_id))
-		for i in modl:
-			if i.id == int(heading_id):	
-				FormContainer(createjob= i,title = name,content = content).save()
-				print('saved')
-				return redirect(reverse('jobs:detail',args=(CreateJob.objects.get(id=i.id).id,)))
+		FormContainer(createjob = obj,title = request.POST.get('title'),content = request.POST.get('content')).save()
+		print('saved')
+		return redirect('jobs:home')
+
+
 	context = {
 		'form':form,
 		'second_form':second_form,
@@ -59,29 +72,44 @@ def updatejob(request,id):
 	jobs_model = get_object_or_404(CreateJob,id = id,user = request.user)
 	form = CreateJobForm(request.POST or None,request.FILES or None,instance=jobs_model)
 
-	formContainermodel = FormContainer.objects.get(createjob = jobs_model.id)
-	customformcontainer = CustomFormContainer(initial={'title':formContainermodel.title,'content':formContainermodel.content})
+	# if form.is_valid():
+	# 	obj = form.save(commit = False)
+	# 	messages.add_message(request,messages.SUCCESS,'job information Updated!')
+	# 	obj.save()
+	# 	updated_slug = obj.company_name
+	# 	return JsonResponse({'status':'success'},safe=False)
+	# 	# return redirect(reverse('jobs:detail',args=(slugify(obj.company_name),)))
 
-	if form.is_valid():
+	# formContainermodel = FormContainer.objects.get(createjob = jobs_model.id)
+	# customformcontainer = CustomFormContainer(initial={'title':formContainermodel.title,'content':formContainermodel.content})
+
+	# if request.method == 'POST':
+	# 	formContainermodel.title = request.POST.get('title')
+	# 	formContainermodel.content = request.POST.get(	'content')
+	# 	formContainermodel.save()
+	# 	print('saved')
+	# 	return redirect(reverse("jobs:detail",args=(jobs_model.id,)))
+
+	formcontainermodel = FormContainer.objects.get(createjob = jobs_model.id)
+	customformcontainer = CustomFormContainer(initial={'title':formcontainermodel.title,'content':formcontainermodel.content})
+
+	if form.is_valid() and request.method == 'POST':
 		obj = form.save(commit = False)
-		messages.add_message(request,messages.SUCCESS,'job information Updated!')
 		obj.save()
+		
+		formcontainermodel.title = request.POST.get('title')
+		formcontainermodel.content = request.POST.get('content')
+		formcontainermodel.save()
+
+		messages.add_message(request,messages.SUCCESS,'jobs information updated')
 		updated_slug = obj.company_name
-		return JsonResponse({'status':'success'},safe=False)
-		# return redirect(reverse('jobs:detail',args=(slugify(obj.company_name),)))
-	
-	if request.method == 'POST':
-		formContainermodel.title = request.POST.get('title')
-		formContainermodel.content = request.POST.get('content')
-		formContainermodel.save()
-		print('saved')
-		return redirect(reverse("jobs:detail",args=(jobs_model.id,)))
+		return redirect(reverse('jobs:detail',args=(jobs_model.id,)))
+
 
 	context = {
 		'form':form,
 		'jobs_model':jobs_model,
 		'customformcontainer':customformcontainer,
-		'formContainermodel':formContainermodel
 		}
 	return render(request,'updatejob.html',context)
 
