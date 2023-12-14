@@ -4,10 +4,10 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 
 from account.forms import AuthForm,UserForm,ProfileForm,Reset_password_Form
-from account.models import Profile
+from account.models import Profile,User
 from jobs.models import CreateJob
 
-User = get_user_model()
+activeUser = get_user_model()
 
 def userlogin(request):
 	form = AuthForm(request.POST or None)
@@ -39,7 +39,7 @@ def userlogout(request):
 
 
 def profile_view(request,pk):
-	user = get_object_or_404(User,id = pk)
+	user = get_object_or_404(activeUser,id = pk)
 	profile = get_object_or_404(Profile,user = user)
 	pro = Profile.objects.all()
 	create_jobs = CreateJob.objects.filter(user = pk)
@@ -70,24 +70,38 @@ def profile_view(request,pk):
 
 def reset_password(request):
 	form = Reset_password_Form(request.POST or None)
+	use = User.objects.all()
 	if request.method == 'POST':
 		username1 = request.POST.get('username')
 		password1 = request.POST.get('password1')
 		password2 = request.POST.get('password2')
 		print(username1,password1,password2)
 		# user = User.objects.get(username = username1)
-		user = get_object_or_404(User,username = username1)
+		# user = get_object_or_404(User,username = username1)
 
-		if user.username == request.user.username:
-			if password1 == password1:
-				user.set_password(password2)
-				user.save()
-				messages.add_message(request,messages.SUCCESS,'password updated')
-				return redirect(reverse("account:userlogin"))
+		for i in use:
+			if i.username == username1:
+				if password1 == password2:
+					i.set_password(password2)
+					i.save()
+					messages.add_message(request,messages.SUCCESS,'password updated')
+					return redirect(reverse("account:userlogin"))
+				else:
+					print("password didn\'t match")
 			else:
-				print('password didn\'t match')
-		else:
-			print('username didn\nt match')
+				print("username didn\'t match")
+		
+
+		# if user.username == request.user.username:
+		# 	if password1 == password2:
+		# 		user.set_password(password2)
+		# 		user.save()
+		# 		messages.add_message(request,messages.SUCCESS,'password updated')
+		# 		return redirect(reverse("account:userlogin"))
+		# 	else:
+		# 		print('password didn\'t match')
+		# else:
+		# 	print('username didn\nt match')
 	context = {'form':form}
 	return render(request,'reset_password.html',context)
 

@@ -1,16 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- <form method="post">
-	{% csrf_token %}
-	<label>username</label>
-	<input type="text-success" name="username">
-	<label>password</label>
-	<input type="text-success" name="password">
-	<input type="submit" value="submit">
-</form> -->
-
-
 <div class="container">
   <div class="row">
     <div class="col">
@@ -30,7 +20,7 @@
 			    <input type="password" class="form-control" name="password">
 			  </div>
 			  <button type="submit" class="btn btn-primary">Login</button><br>
-			  <a href="{% url 'account:userlogin' %}">forgot password?</a><br>
+			  <a href="{% url 'account:reset_password' %}">forgot password?</a><br>
 			  <p>don't have account, let's dive in <a href="{% url 'account:usersignup' %}">Register</a></p>
 			</form>
 		</div>
