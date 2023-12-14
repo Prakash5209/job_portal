@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<style>
+	#show_password_id{
+		cursor:pointer;
+	}
+</style>
+
 <div class="container">
   <div class="row">
     <div class="col">
@@ -17,7 +23,8 @@
 			  </div>
 			  <div class="mb-3">
 			    <label class="form-label">Password</label>
-			    <input type="password" class="form-control" name="password">
+			    <input type="password" class="form-control" id="show_password" name="password">
+				<u><span onclick="show_password_function()" id="show_password_id">show</span></u>
 			  </div>
 			  <button type="submit" class="btn btn-primary">Login</button><br>
 			  <a href="{% url 'account:reset_password' %}">forgot password?</a><br>
@@ -30,6 +37,19 @@
   </div>
 </div>
 
-
+<script>
+	let show_password = false;
+	function show_password_function(){
+		if(show_password){
+			document.getElementById('show_password').setAttribute('type','password');
+			document.getElementById('show_password_id').textContent = document.getElementById('show_password_id').textContent = 'show';
+			show_password = false;
+		}else{
+			document.getElementById('show_password').setAttribute('type','text');
+			document.getElementById('show_password_id').textContent = document.getElementById('show_password_id').textContent = 'hide';
+			show_password = true;
+		}
+	}
+</script>
 
 {% endblock %}
