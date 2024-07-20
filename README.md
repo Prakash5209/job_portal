@@ -10,19 +10,14 @@ The **Job Portal** project is a web application designed to connect job seekers 
 - **User Registration and Login:** Secure authentication system for job seekers to create and manage their profiles.
 - **Profile Management:** Allows users to update their personal information, upload resumes, and add skills.
 - **Job Search:** Advanced search functionality to filter job listings by keywords, location, industry, and more.
-- **Job Application:** Users can easily apply for jobs and track their application status.
-- **Job Alerts:** Notifications for new job postings that match user preferences.
 
 ### For Employers:
 - **Employer Registration and Login:** Secure authentication system for employers to create and manage their company profiles.
 - **Job Posting:** Employers can post new job openings with detailed descriptions and requirements.
-- **Applicant Management:** Employers can review applications, shortlist candidates, and manage the hiring process.
-- **Search for Candidates:** Employers can search for potential candidates based on skills, experience, and other criteria.
 
 ### Additional Features:
 - **Responsive Design:** Ensures a user-friendly experience across various devices, including desktops, tablets, and mobile phones.
 - **Admin Dashboard:** Administrative interface for managing users, job postings, and site content.
-- **Notifications System:** Email notifications for job applications, new job postings, and other relevant updates.
 
 ## Technology Stack
 
@@ -30,7 +25,6 @@ The **Job Portal** project is a web application designed to connect job seekers 
 - **Backend:** Django (Python framework for building web applications)
 - **Database:** PostgreSQL (for storing user data, job postings, applications, etc.)
 - **Authentication:** Django's built-in authentication system
-- **Hosting:** Deployed on a cloud service provider (e.g., AWS, Heroku)
 
 ## Installation
 
